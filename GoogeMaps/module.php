@@ -32,6 +32,6 @@ class GoogleMaps extends IPSModule
 
         $api_key = $this->ReadPropertyString('api_key');
 
-        $this->SetStatus($$api_key == '' ? 104 : 102);
+        $this->SetStatus($api_key == '' ? 104 : 102);
     }
 }
