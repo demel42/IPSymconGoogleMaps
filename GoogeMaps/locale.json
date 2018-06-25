@@ -1,0 +1,11 @@
+{
+	"translations": {
+		"de": {
+			"API-Key": "API-Key",
+
+			"Instance getting created": "Instanz wird erstellt",
+			"Instance is active": "Instanz ist aktiv",
+			"Instance is inactive": "Instanz ist inaktiv"
+		}
+	}
+}

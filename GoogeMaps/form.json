@@ -1,0 +1,12 @@
+{
+	"elements":
+			[
+				{ "type": "ValidationTextBox", "name": "api_key", "caption": "API-Key" }
+			],
+	"status":
+			[
+				{ "code": 101, "icon": "inactive", "caption": "Instance getting created" },
+				{ "code": 102, "icon": "active", "caption": "Instance is active" },
+				{ "code": 104, "icon": "inactive", "caption": "Instance is inactive" }
+			]
+}
