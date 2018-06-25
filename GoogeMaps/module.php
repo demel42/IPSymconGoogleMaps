@@ -6,18 +6,18 @@ if (!defined('IPS_BOOLEAN')) {
     define('IPS_BOOLEAN', 0);
 }
 if (!defined('IPS_INTEGER')) {
-	define('IPS_INTEGER', 1);
+    define('IPS_INTEGER', 1);
 }
 if (!defined('IPS_FLOAT')) {
-	define('IPS_FLOAT', 2);
+    define('IPS_FLOAT', 2);
 }
 if (!defined('IPS_STRING')) {
-	define('IPS_STRING', 3);
+    define('IPS_STRING', 3);
 }
 
 class GoogleMaps extends IPSModule
 {
-	use GoogleMapsCommon;
+    use GoogleMapsCommon;
 
     public function Create()
     {
@@ -32,7 +32,6 @@ class GoogleMaps extends IPSModule
 
         $api_key = $this->ReadPropertyString('api_key');
 
-		$this->SetStatus($$api_key == '' ? 104 : 102);
+        $this->SetStatus($$api_key == '' ? 104 : 102);
     }
-
 }
