@@ -22,20 +22,20 @@ class GoogleMaps extends IPSModule
         $this->SetStatus($api_key == '' ? 104 : 102);
     }
 
-public function GenerateMap(string $title, $origin, $marker, $polyline, $options)
-{
-    $api_key = $this->ReadPropertyString('api_key');
+    public function GenerateMap(string $title, $origin, $marker, $polyline, $options)
+    {
+        $api_key = $this->ReadPropertyString('api_key');
 
-    $map_options = isset($options['map_options']) ? $options['map_options'] : '';
+        $map_options = isset($options['map_options']) ? $options['map_options'] : '';
 
-    $marker_points = isset($marker['points']) ? $marker['points'] : '';
-    $marker_options = isset($marker['marker_options']) ? $marker['marker_options'] : '';
-    $infowindow_options = isset($marker['infowindow_options']) ? $marker['infowindow_options'] : '';
+        $marker_points = isset($marker['points']) ? $marker['points'] : '';
+        $marker_options = isset($marker['marker_options']) ? $marker['marker_options'] : '';
+        $infowindow_options = isset($marker['infowindow_options']) ? $marker['infowindow_options'] : '';
 
-    $polyline_points = isset($polyline['points']) ? $polyline['points'] : '';
-    $polyline_options = isset($polyline['polyline_options']) ? $polyline['polyline_options'] : '';
+        $polyline_points = isset($polyline['points']) ? $polyline['points'] : '';
+        $polyline_options = isset($polyline['polyline_options']) ? $polyline['polyline_options'] : '';
 
-    $s = '
+        $s = '
 <html>
 <head>
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
@@ -60,8 +60,8 @@ public function GenerateMap(string $title, $origin, $marker, $polyline, $options
         var infowindowOptions = ' . json_encode($infowindow_options) . ';
         var infowindow = new google.maps.InfoWindow();
 ';
-    if ($marker_points != '') {
-        $s .= '
+        if ($marker_points != '') {
+            $s .= '
         var markerLocations = ' . json_encode($marker_points) . ';
         for(i = 0; i < markerLocations.length; i++) {
             var position = new google.maps.LatLng(markerLocations[i]);
@@ -82,19 +82,19 @@ public function GenerateMap(string $title, $origin, $marker, $polyline, $options
                 }) (marker, i));
         }
 ';
-    }
+        }
 
-    if ($polyline_points != '') {
-        $s .= '
+        if ($polyline_points != '') {
+            $s .= '
         var polylineLocationList = ' . json_encode($polyline_points) . ';
         var polylineOptions = ' . json_encode($polyline_options) . ';
         polylineOptions.path = polylineLocationList;
         var polyline = new google.maps.Polyline(polylineOptions);
         polyline.setMap(map);
 ';
-    }
+        }
 
-    $s .= '
+        $s .= '
     }
 
     google.maps.event.addDomListener(window, "load", initialize);
@@ -107,7 +107,6 @@ public function GenerateMap(string $title, $origin, $marker, $polyline, $options
 </html>
 ';
 
-    return $s;
-}
-
+        return $s;
+    }
 }
