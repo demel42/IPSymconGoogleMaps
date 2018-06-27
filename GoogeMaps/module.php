@@ -26,13 +26,13 @@ class GoogleMaps extends IPSModule
     {
         $api_key = $this->ReadPropertyString('api_key');
 
-		$url = 'https://maps.googleapis.com/maps/api/js?key=' . $api_key;
+        $url = 'https://maps.googleapis.com/maps/api/js?key=' . $api_key;
 
         $center = isset($map['center']) ? $map['center'] : '';
         $map_options = isset($map['map_options']) ? $map['map_options'] : '';
-		$infowindow_options = isset($map['infowindow_options']) ? $map['infowindow_options'] : '';
+        $infowindow_options = isset($map['infowindow_options']) ? $map['infowindow_options'] : '';
 
-		// Kopf
+        // Kopf
         $html = '
 <html>
 <head>
@@ -58,12 +58,12 @@ class GoogleMaps extends IPSModule
         var infowindowOptions = ' . json_encode($infowindow_options) . ';
         var infowindow = new google.maps.InfoWindow();
 ';
-		// Karte mit Punkten
+        // Karte mit Punkten
         if ($markers != '') {
-			foreach ($markers as $marker) {
-				$marker_points = isset($marker['points']) ? $marker['points'] : '';
-				$marker_options = isset($marker['marker_options']) ? $marker['marker_options'] : '';
-				$html .= '
+            foreach ($markers as $marker) {
+                $marker_points = isset($marker['points']) ? $marker['points'] : '';
+                $marker_options = isset($marker['marker_options']) ? $marker['marker_options'] : '';
+                $html .= '
         var markerLocations = ' . json_encode($marker_points) . ';
         for(i = 0; i < markerLocations.length; i++) {
             var position = new google.maps.LatLng(markerLocations[i]);
@@ -84,24 +84,24 @@ class GoogleMaps extends IPSModule
                 }) (marker, i));
         }
 ';
-			}
+            }
         }
 
-		// Karte mit verbundenen Punkten
+        // Karte mit verbundenen Punkten
         if ($paths != '') {
-			foreach ($paths as $path) {
-				$path_points = isset($path['points']) ? $path['points'] : '';
-				$polyline_options = isset($path['polyline_options']) ? $path['polyline_options'] : '';
-				$html .= '
+            foreach ($paths as $path) {
+                $path_points = isset($path['points']) ? $path['points'] : '';
+                $polyline_options = isset($path['polyline_options']) ? $path['polyline_options'] : '';
+                $html .= '
         var polylineOptions = ' . json_encode($polyline_options) . ';
         polylineOptions.path = ' . json_encode($path_points) . ';;
         var polyline = new google.maps.Polyline(polylineOptions);
         polyline.setMap(map);
 ';
-			}
+            }
         }
 
-		// Fussbereich
+        // Fussbereich
         $html .= '
     }
 
@@ -118,88 +118,88 @@ class GoogleMaps extends IPSModule
         return $html;
     }
 
-	function GenerateStaticMap($title, $options, $markers, $paths)
-	{
+    public function GenerateStaticMap($title, $options, $markers, $paths)
+    {
         $api_key = $this->ReadPropertyString('api_key');
 
-		$url = 'https://maps.googleapis.com/maps/api/staticmap?key=' . $api_key;
+        $url = 'https://maps.googleapis.com/maps/api/staticmap?key=' . $api_key;
 
-		if (isset($options['center'])) {
-			$lat = number_format($options['center']['lat'], 6, '.', '');
-			$lng = number_format($options['center']['lng'], 6, '.', '');
-			$url .= '&center=' . rawurlencode($lat . ',' . $lng);
-		}
+        if (isset($options['center'])) {
+            $lat = number_format($options['center']['lat'], 6, '.', '');
+            $lng = number_format($options['center']['lng'], 6, '.', '');
+            $url .= '&center=' . rawurlencode($lat . ',' . $lng);
+        }
 
-		foreach ( ['zoom', 'size', 'scale', 'maptype'] as $key ) {
-			if (isset($options[$key])) {
-				$url .= '&' . $key . '=' . rawurlencode($options[$key]);
-			}
-		}
+        foreach (['zoom', 'size', 'scale', 'maptype'] as $key) {
+            if (isset($options[$key])) {
+                $url .= '&' . $key . '=' . rawurlencode($options[$key]);
+            }
+        }
 
-		if (isset($options['styles'])) {
-			$styles = $options['styles'];
-			foreach ($styles as $style) {
-				$s = '';
-				foreach ( ['feature', 'color'] as $key ) {
-					if (isset($style[$key])) {
-						if ($s != '') {
-							$s .= '|';
-						}
-						$s .= $key . ':' . $style[$key];
-					}
-				}
-				$url .= '&style=' . rawurlencode($s);
-			}
-		}
+        if (isset($options['styles'])) {
+            $styles = $options['styles'];
+            foreach ($styles as $style) {
+                $s = '';
+                foreach (['feature', 'color'] as $key) {
+                    if (isset($style[$key])) {
+                        if ($s != '') {
+                            $s .= '|';
+                        }
+                        $s .= $key . ':' . $style[$key];
+                    }
+                }
+                $url .= '&style=' . rawurlencode($s);
+            }
+        }
 
-		foreach ($markers as $marker) {
-			$s = '';
-			foreach ( ['color', 'label', 'size'] as $key ) {
-				if (isset($marker[$key])) {
-					if ($s != '') {
-						$s .= '|';
-					}
-					$s .= $key . ':' . $marker[$key];
-				}
-			}
-			if (isset($marker['points'])) {
-				$points = $marker['points'];
-				foreach ($points as $point) {
-					$lat = number_format($point['lat'], 6, '.', '');
-					$lng = number_format($point['lng'], 6, '.', '');
-					if ($s != '') {
-						$s .= '|';
-					}
-					$s .= $lat . ',' . $lng;
-				}
-			}
-			$url .= '&markers=' . rawurlencode($s);
-		}
+        foreach ($markers as $marker) {
+            $s = '';
+            foreach (['color', 'label', 'size'] as $key) {
+                if (isset($marker[$key])) {
+                    if ($s != '') {
+                        $s .= '|';
+                    }
+                    $s .= $key . ':' . $marker[$key];
+                }
+            }
+            if (isset($marker['points'])) {
+                $points = $marker['points'];
+                foreach ($points as $point) {
+                    $lat = number_format($point['lat'], 6, '.', '');
+                    $lng = number_format($point['lng'], 6, '.', '');
+                    if ($s != '') {
+                        $s .= '|';
+                    }
+                    $s .= $lat . ',' . $lng;
+                }
+            }
+            $url .= '&markers=' . rawurlencode($s);
+        }
 
-		foreach ($paths as $path) {
-			$s = '';
-			foreach ( ['color', 'weight'] as $key ) {
-				if (isset($path[$key])) {
-					if ($s != '') {
-						$s .= '|';
-					}
-					$s .= $key . ':' . $path[$key];
-				}
-			}
-			if (isset($path['points'])) {
-				$points = $path['points'];
-				foreach ($points as $point) {
-					$lat = number_format($point['lat'], 6, '.', '');
-					$lng = number_format($point['lng'], 6, '.', '');
-					if ($s != '') {
-						$s .= '|';
-					}
-					$s .= $lat . ',' . $lng;
-				}
-			}
-			$url .= '&path=' . rawurlencode($s);
-		}
-		
-		return $url;
-	}
+        foreach ($paths as $path) {
+            $s = '';
+            foreach (['color', 'weight'] as $key) {
+                if (isset($path[$key])) {
+                    if ($s != '') {
+                        $s .= '|';
+                    }
+                    $s .= $key . ':' . $path[$key];
+                }
+            }
+            if (isset($path['points'])) {
+                $points = $path['points'];
+                foreach ($points as $point) {
+                    $lat = number_format($point['lat'], 6, '.', '');
+                    $lng = number_format($point['lng'], 6, '.', '');
+                    if ($s != '') {
+                        $s .= '|';
+                    }
+                    $s .= $lat . ',' . $lng;
+                }
+            }
+            $url .= '&path=' . rawurlencode($s);
+        }
+
+        return $url;
+    }
 }
