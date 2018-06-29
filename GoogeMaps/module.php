@@ -19,12 +19,17 @@ class GoogleMaps extends IPSModule
 
         $api_key = $this->ReadPropertyString('api_key');
 
-        $this->SetStatus($api_key == '' ? 104 : 102);
+        //$this->SetStatus($api_key == '' ? 104 : 102);
+        $this->SetStatus(102);
     }
 
-    public function GenerateDynamicMap($title, $map, $markers, $paths)
+    public function GenerateDynamicMap($map, $markers, $paths)
     {
         $api_key = $this->ReadPropertyString('api_key');
+		if ($api_key == '') {
+			LogMessage(__FUNCTION__ . ': GenerateDynamicMap requires a valid API-Key', KL_WARNING);
+			return '';
+		}
 
         $url = 'https://maps.googleapis.com/maps/api/js?key=' . $api_key;
 
@@ -44,8 +49,6 @@ class GoogleMaps extends IPSModule
     body { height: 100%; margin: 0; padding: 0 }
     #map-canvas { height: 100% }
 </style>
-
-<title>' . $title . '</title>
 
 <script type="text/javascript" src="' . $url . '"></script>
 <script type="text/javascript">
@@ -118,11 +121,14 @@ class GoogleMaps extends IPSModule
         return $html;
     }
 
-    public function GenerateStaticMap($title, $options, $markers, $paths)
+    public function GenerateStaticMap($options, $markers, $paths)
     {
+        $url = 'https://maps.googleapis.com/maps/api/staticmap?key=';
+		
         $api_key = $this->ReadPropertyString('api_key');
-
-        $url = 'https://maps.googleapis.com/maps/api/staticmap?key=' . $api_key;
+		if ($api_key != '') {
+			$url .= $api_key;
+		}
 
         if (isset($options['center'])) {
             $lat = number_format($options['center']['lat'], 6, '.', '');
