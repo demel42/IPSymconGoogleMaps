@@ -26,10 +26,10 @@ class GoogleMaps extends IPSModule
     public function GenerateDynamicMap($map, $markers, $paths)
     {
         $api_key = $this->ReadPropertyString('api_key');
-		if ($api_key == '') {
-			LogMessage(__FUNCTION__ . ': GenerateDynamicMap requires a valid API-Key', KL_WARNING);
-			return '';
-		}
+        if ($api_key == '') {
+            LogMessage(__FUNCTION__ . ': GenerateDynamicMap requires a valid API-Key', KL_WARNING);
+            return '';
+        }
 
         $url = 'https://maps.googleapis.com/maps/api/js?key=' . $api_key;
 
@@ -124,11 +124,11 @@ class GoogleMaps extends IPSModule
     public function GenerateStaticMap($options, $markers, $paths)
     {
         $url = 'https://maps.googleapis.com/maps/api/staticmap?key=';
-		
+
         $api_key = $this->ReadPropertyString('api_key');
-		if ($api_key != '') {
-			$url .= $api_key;
-		}
+        if ($api_key != '') {
+            $url .= $api_key;
+        }
 
         if (isset($options['center'])) {
             $lat = number_format($options['center']['lat'], 6, '.', '');

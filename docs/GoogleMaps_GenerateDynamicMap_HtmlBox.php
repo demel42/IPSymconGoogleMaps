@@ -1,4 +1,4 @@
-<?
+<?php
 
 $url = 'http://<IPS-IP/Name>:3777/hook/GoogleMaps';
 
