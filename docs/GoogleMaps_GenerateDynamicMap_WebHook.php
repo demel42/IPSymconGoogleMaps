@@ -100,5 +100,5 @@ $path['polyline_options'] = $polyline_options;
 
 $paths[] = $path;
 
-$html = GoogleMaps_GenerateDynamicMap(/* ID von GoogleMaps-Instanz */, $map, $markers, $paths);
+$html = GoogleMaps_GenerateDynamicMap(1234 /* ID von GoogleMaps-Instanz */, $map, $markers, $paths);
 echo $html;
