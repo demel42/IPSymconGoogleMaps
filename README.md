@@ -19,6 +19,32 @@
 
 ## 1. Funktionsumfang
 
+Erstellen von statischen und dynamischen Karten von GoogleMaps.
+
+a) statisch Karten
+diese Art der Karte ist ein Images, in dem Markierungen und Pfade eingezeichnet sind.
+Die typische Interaktion (z.B. zoomen, verschieben) ist nicht möglich. Die üblichen Sichten (Karte, Satellit ...) werden unterstützt, nicht aber Routenplanung, Verkehrslage etc.
+
+Der Abruf erfolgt komplett über eine normale (wenn auch komplexe) URL, die Einbindung im IPS kann ganz normal über eine HTML-Box erfolgen.
+
+b) dynamische Karten
+bei diesen Karten sind alle bekannten Mechanismen (zoomen, verschieben) vorhanden sowie auch Routenplanung und Verkehrslage (noch in Arbeit)
+Diese API setzt im Aufruf JavaScript voraus; nach meinen bisherigen Tests ist die Einbindung im IPS nur über den Umweg über ein WebHook oder eine HTML-Seite im User-Verzeichnis möglich
+
+
+Grundsätzlich ist nach den letzten Änderungen laut Dokumentation von Google ein Zugriff auf Karten von GoogleMaps nur noch mit einen API-Key möglich. Bei den statischen Maps scheint der Zugriff aber noch ohen API-Key zu funktionieren.
+Dieser API-Key setzt eine Registrierung bei Google voraus und eine Angabe eine Zahlungsmittels. ∆s gibt nach meinem Verständnis ein monatliches Guthaben von 200$, das nach der jetzigen Preisliste für 28.500 Aufrufe von dynamischen Karten/Monat bzw. 100.000 statischen Karte bzw. 40.000 Routen ausreicht.
+siehe https://cloud.google.com/maps-platform/pricing/?hl=de
+
+Achtung: meine Informationen haben Stand 06/2018, stellen nur meine Meinung dar und natürlich übernehme ich keine Gewähr für die Richtigkeit!
+
+Der API-Key kann hier https://developers.google.com/maps/documentation/javascript/get-api-key?hl=de erstellt werden.
+
+Für die Karten muss man zwei API's aktivieren: _*Maps Javascript API*_ und _*Maps Static API*_
+
+![API-Übersicht](docs/API-Übersicht.png?raw=true "Übersicht")
+![API-Beschränkungen](docs/API-Beschränkungen.png?raw=true "Beschränkungen")
+
 ## 2. Voraussetzungen
 
  - IP-Symcon ab Version 4.4
@@ -48,11 +74,17 @@ In dem Konfigurationsdialog den API-Key von GoogleMaps eintragen.
 
 ## 4. Funktionsreferenz
 
-### zentrale Funktion
+### statische Karte
 
-`GoogleMaps_xxx(integer $InstanzID, ...)`
+Dokumentation: https://developers.google.com/maps/documentation/maps-static/intro?hl=de
 
-xxxx
+'GoogleMaps_GenerateDynamicMap(integer $InstanzID, $options, $markers, $paths)`
+
+### dynamische Karte
+
+Dokumentation: https://developers.google.com/maps/documentation/javascript/tutorial?hl=de
+
+'GoogleMaps_GenerateStaticMap(integer $InstanzID, $options, $markers, $paths)`
 
 ## 5. Konfiguration:
 
