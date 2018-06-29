@@ -40,81 +40,84 @@ class GoogleMaps extends IPSModule
         // Kopf
         $html = '
 <html>
-<head>
-<meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <head>
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
 
-<style type="text/css">
-    html { height: 100% }
-    body { height: 100%; margin: 0; padding: 0 }
-    #map-canvas { height: 100% }
-</style>
+        <style type="text/css">
+            html { height: 100% }
+            body { height: 100%; margin: 0; padding: 0 }
+            #map-canvas { height: 100% }
+        </style>
+    </head>
+    <body>
+        <div id="map-canvas"/>
 
-<script type="text/javascript" src="' . $url . '"></script>
-<script type="text/javascript">
-    function initialize() {
-        var center = new google.maps.LatLng(' . json_encode($center) . ');
-        var mapOptions = ' . json_encode($map_options) . ';
-        mapOptions.center = center;
-        var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+        <script type="text/javascript">
+            function initialize() {
+                var center = new google.maps.LatLng(' . json_encode($center) . ');
+                var mapOptions = ' . json_encode($map_options) . ';
+                mapOptions.center = center;
+                var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
 
-        var infowindowOptions = ' . json_encode($infowindow_options) . ';
-        var infowindow = new google.maps.InfoWindow();
+                var infowindowOptions = ' . json_encode($infowindow_options) . ';
+                if (infowindowOptions == "")
+                    infowindowOptions = {};
+                var infowindow = new google.maps.InfoWindow();
 ';
-        // Karte mit Punkten
-        if ($markers != '') {
-            foreach ($markers as $marker) {
-                $marker_points = isset($marker['points']) ? $marker['points'] : '';
-                $marker_options = isset($marker['marker_options']) ? $marker['marker_options'] : '';
-                $html .= '
-        var markerLocations = ' . json_encode($marker_points) . ';
-        for(i = 0; i < markerLocations.length; i++) {
-            var position = new google.maps.LatLng(markerLocations[i]);
-            var markerOptions = ' . json_encode($marker_options) . ';
-            if (markerLocations[i]["marker_options"])
-            	markerOptions = markerLocations[i]["marker_options"];
-            markerOptions.position = position;
-            markerOptions.map = map;
-            var marker = new google.maps.Marker(markerOptions);
-            google.maps.event.addListener(marker, "click", (function(marker, i) {
-                    return function() {
-                        if (markerLocations[i]["info"]) {
-                            infowindow.setContent(markerLocations[i]["info"]);
-                            infowindow.setOptions(infowindowOptions);
-                            infowindow.open(map, marker);
-                        }
+                // Karte mit Punkten
+                if ($markers != '') {
+                    foreach ($markers as $marker) {
+                        $marker_points = isset($marker['points']) ? $marker['points'] : '';
+                        $marker_options = isset($marker['marker_options']) ? $marker['marker_options'] : '';
+                        $html .= '
+                var markerLocations = ' . json_encode($marker_points) . ';
+                for(i = 0; i < markerLocations.length; i++) {
+                    var position = new google.maps.LatLng(markerLocations[i]);
+                    var markerOptions = ' . json_encode($marker_options) . ';
+                    if (markerLocations[i]["marker_options"])
+                        markerOptions = markerLocations[i]["marker_options"];
+                    if (markerOptions == "")
+                        markerOptions = {};
+                    markerOptions.position = position;
+                    markerOptions.map = map;
+                    var marker = new google.maps.Marker(markerOptions);
+                    google.maps.event.addListener(marker, "click", (function(marker, i) {
+                            return function() {
+                                if (markerLocations[i]["info"]) {
+                                    infowindow.setContent(markerLocations[i]["info"]);
+                                    infowindow.setOptions(infowindowOptions);
+                                    infowindow.open(map, marker);
+                                }
+                            }
+                        }) (marker, i));
+                }
+';
                     }
-                }) (marker, i));
-        }
-';
-            }
-        }
+                }
 
-        // Karte mit verbundenen Punkten
-        if ($paths != '') {
-            foreach ($paths as $path) {
-                $path_points = isset($path['points']) ? $path['points'] : '';
-                $polyline_options = isset($path['polyline_options']) ? $path['polyline_options'] : '';
+                // Karte mit verbundenen Punkten
+                if ($paths != '') {
+                    foreach ($paths as $path) {
+                        $path_points = isset($path['points']) ? $path['points'] : '';
+                        $polyline_options = isset($path['polyline_options']) ? $path['polyline_options'] : '';
+                        $html .= '
+                var polylineOptions = ' . json_encode($polyline_options) . ';
+                if (polylineOptions == "")
+                    polylineOptions = {};
+                polylineOptions.path = ' . json_encode($path_points) . ';;
+                var polyline = new google.maps.Polyline(polylineOptions);
+                polyline.setMap(map);
+';
+                    }
+                }
+
+                // Fussbereich
                 $html .= '
-        var polylineOptions = ' . json_encode($polyline_options) . ';
-        polylineOptions.path = ' . json_encode($path_points) . ';;
-        var polyline = new google.maps.Polyline(polylineOptions);
-        polyline.setMap(map);
-';
             }
-        }
-
-        // Fussbereich
-        $html .= '
-    }
-
-    google.maps.event.addDomListener(window, "load", initialize);
-</script>
-
-</head> 
-<body>
-    <div id="map-canvas"/>
-</body>
+        </script>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=' . $api_key . '&callback=initialize"></script>
+    </body>
 </html>
 ';
 
