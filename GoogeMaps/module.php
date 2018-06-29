@@ -65,12 +65,12 @@ class GoogleMaps extends IPSModule
                     infowindowOptions = {};
                 var infowindow = new google.maps.InfoWindow();
 ';
-                // Karte mit Punkten
-                if ($markers != '') {
-                    foreach ($markers as $marker) {
-                        $marker_points = isset($marker['points']) ? $marker['points'] : '';
-                        $marker_options = isset($marker['marker_options']) ? $marker['marker_options'] : '';
-                        $html .= '
+        // Karte mit Punkten
+        if ($markers != '') {
+            foreach ($markers as $marker) {
+                $marker_points = isset($marker['points']) ? $marker['points'] : '';
+                $marker_options = isset($marker['marker_options']) ? $marker['marker_options'] : '';
+                $html .= '
                 var markerLocations = ' . json_encode($marker_points) . ';
                 for(i = 0; i < markerLocations.length; i++) {
                     var position = new google.maps.LatLng(markerLocations[i]);
@@ -93,15 +93,15 @@ class GoogleMaps extends IPSModule
                         }) (marker, i));
                 }
 ';
-                    }
-                }
+            }
+        }
 
-                // Karte mit verbundenen Punkten
-                if ($paths != '') {
-                    foreach ($paths as $path) {
-                        $path_points = isset($path['points']) ? $path['points'] : '';
-                        $polyline_options = isset($path['polyline_options']) ? $path['polyline_options'] : '';
-                        $html .= '
+        // Karte mit verbundenen Punkten
+        if ($paths != '') {
+            foreach ($paths as $path) {
+                $path_points = isset($path['points']) ? $path['points'] : '';
+                $polyline_options = isset($path['polyline_options']) ? $path['polyline_options'] : '';
+                $html .= '
                 var polylineOptions = ' . json_encode($polyline_options) . ';
                 if (polylineOptions == "")
                     polylineOptions = {};
@@ -109,11 +109,11 @@ class GoogleMaps extends IPSModule
                 var polyline = new google.maps.Polyline(polylineOptions);
                 polyline.setMap(map);
 ';
-                    }
-                }
+            }
+        }
 
-                // Fussbereich
-                $html .= '
+        // Fussbereich
+        $html .= '
             }
         </script>
         <script async defer src="https://maps.googleapis.com/maps/api/js?key=' . $api_key . '&callback=initialize"></script>
