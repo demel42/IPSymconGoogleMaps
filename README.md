@@ -76,15 +76,17 @@ In dem Konfigurationsdialog den API-Key von GoogleMaps eintragen.
 
 ### statische Karte
 
-Dokumentation: https://developers.google.com/maps/documentation/maps-static/intro?hl=de
-
 'GoogleMaps_GenerateDynamicMap(integer $InstanzID, $options, $markers, $paths)`
+
+API-Dokumentation: https://developers.google.com/maps/documentation/maps-static/intro?hl=de<br>
+Beispiel: `docs/GoogleMaps_GenerateStaticMap.php`
 
 ### dynamische Karte
 
-Dokumentation: https://developers.google.com/maps/documentation/javascript/tutorial?hl=de
-
 'GoogleMaps_GenerateStaticMap(integer $InstanzID, $options, $markers, $paths)`
+
+API-Dokumentation: https://developers.google.com/maps/documentation/javascript/tutorial?hl=de<br>
+Beispiel: `docs/GoogleMaps_GenerateDynamicMap_WebHook.php` und `docs/GoogleMaps_GenerateDynamicMap_HtmlBox.php`
 
 ## 5. Konfiguration:
 
