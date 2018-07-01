@@ -56,7 +56,7 @@ $markers[] = [
         'points'    => $marker_points,
     ];
 
-$map['markers'] = 'markers';
+$map['markers'] = $markers;
 
 $paths = [];
 $paths[] = [
@@ -65,7 +65,7 @@ $paths[] = [
         'points'    => $points,
     ];
 
-$map['paths'] = 'paths';
+$map['paths'] = $paths;
 
 $url = GoogleMaps_GenerateStaticMap(1234 /* ID von GoogleMaps-Instanz */, $map);
 
