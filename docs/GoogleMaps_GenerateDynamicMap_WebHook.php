@@ -78,6 +78,8 @@ $marker['marker_options'] = $marker_options;
 
 $markers[] = $marker;
 
+$map['markers'] = $markers;
+
 // Karte mit verbundenen Punkten
 $paths = [];
 
@@ -97,5 +99,7 @@ $path['polyline_options'] = $polyline_options;
 
 $paths[] = $path;
 
-$html = GoogleMaps_GenerateDynamicMap(1234 /* ID von GoogleMaps-Instanz */, $map, $markers, $paths);
+$map['paths'] = $paths;
+
+$html = GoogleMaps_GenerateDynamicMap(1234 /* ID von GoogleMaps-Instanz */, $map);
 echo $html;

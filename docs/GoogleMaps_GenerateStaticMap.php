@@ -56,6 +56,8 @@ $markers[] = [
         'points'    => $marker_points,
     ];
 
+$map['markers'] = 'markers';
+
 $paths = [];
 $paths[] = [
         'color'     => '0xff0000ff',       // 0xhhhhhhoo oo=opacity
@@ -63,7 +65,9 @@ $paths[] = [
         'points'    => $points,
     ];
 
-$url = GoogleMaps_GenerateStaticMap(1234 /* ID von GoogleMaps-Instanz */, $map, $markers, $paths);
+$map['paths'] = 'paths';
+
+$url = GoogleMaps_GenerateStaticMap(1234 /* ID von GoogleMaps-Instanz */, $map);
 
 $html = '<img width="500", height="500" src="' . $url . '" />';
 SetValueString(4711 /* ID von HtmlBox-Variable */, $html);

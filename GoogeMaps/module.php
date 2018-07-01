@@ -23,7 +23,7 @@ class GoogleMaps extends IPSModule
         $this->SetStatus(102);
     }
 
-    public function GenerateDynamicMap($map, $markers, $paths)
+    public function GenerateDynamicMap($map)
     {
         $api_key = $this->ReadPropertyString('api_key');
         if ($api_key == '') {
@@ -36,6 +36,8 @@ class GoogleMaps extends IPSModule
         $center = isset($map['center']) ? $map['center'] : '';
         $map_options = isset($map['map_options']) ? $map['map_options'] : '';
         $infowindow_options = isset($map['infowindow_options']) ? $map['infowindow_options'] : '';
+        $markers = isset($map['markers']) ? $map['markers'] : '';
+        $paths = isset($map['paths']) ? $map['paths'] : '';
 
         // Kopf
         $html = '
@@ -124,7 +126,7 @@ class GoogleMaps extends IPSModule
         return $html;
     }
 
-    public function GenerateStaticMap($options, $markers, $paths)
+    public function GenerateStaticMap($map)
     {
         $url = 'https://maps.googleapis.com/maps/api/staticmap?key=';
 
@@ -133,20 +135,20 @@ class GoogleMaps extends IPSModule
             $url .= $api_key;
         }
 
-        if (isset($options['center'])) {
-            $lat = number_format($options['center']['lat'], 6, '.', '');
-            $lng = number_format($options['center']['lng'], 6, '.', '');
+        if (isset($map['center'])) {
+            $lat = number_format($map['center']['lat'], 6, '.', '');
+            $lng = number_format($map['center']['lng'], 6, '.', '');
             $url .= '&center=' . rawurlencode($lat . ',' . $lng);
         }
 
         foreach (['zoom', 'size', 'scale', 'maptype'] as $key) {
-            if (isset($options[$key])) {
-                $url .= '&' . $key . '=' . rawurlencode($options[$key]);
+            if (isset($map[$key])) {
+                $url .= '&' . $key . '=' . rawurlencode($map[$key]);
             }
         }
 
-        if (isset($options['styles'])) {
-            $styles = $options['styles'];
+        if (isset($map['styles'])) {
+            $styles = $map['styles'];
             foreach ($styles as $style) {
                 $s = '';
                 foreach (['feature', 'color'] as $key) {
@@ -161,54 +163,61 @@ class GoogleMaps extends IPSModule
             }
         }
 
-        foreach ($markers as $marker) {
-            $s = '';
-            foreach (['color', 'label', 'size'] as $key) {
-                if (isset($marker[$key])) {
-                    if ($s != '') {
-                        $s .= '|';
-                    }
-                    $s .= $key . ':' . $marker[$key];
-                }
-            }
-            if (isset($marker['points'])) {
-                $points = $marker['points'];
-                foreach ($points as $point) {
-                    $lat = number_format($point['lat'], 6, '.', '');
-                    $lng = number_format($point['lng'], 6, '.', '');
-                    if ($s != '') {
-                        $s .= '|';
-                    }
-                    $s .= $lat . ',' . $lng;
-                }
-            }
-            $url .= '&markers=' . rawurlencode($s);
-        }
+        $markers = isset($map['markers']) ? $map['markers'] : '';
+		if ($markers != '') {
+			foreach ($markers as $marker) {
+				$s = '';
+				foreach (['color', 'label', 'size'] as $key) {
+					if (isset($marker[$key])) {
+						if ($s != '') {
+							$s .= '|';
+						}
+						$s .= $key . ':' . $marker[$key];
+					}
+				}
+				if (isset($marker['points'])) {
+					$points = $marker['points'];
+					foreach ($points as $point) {
+						$lat = number_format($point['lat'], 6, '.', '');
+						$lng = number_format($point['lng'], 6, '.', '');
+						if ($s != '') {
+							$s .= '|';
+						}
+						$s .= $lat . ',' . $lng;
+					}
+				}
+				$url .= '&markers=' . rawurlencode($s);
+			}
+		}
 
-        foreach ($paths as $path) {
-            $s = '';
-            foreach (['color', 'weight'] as $key) {
-                if (isset($path[$key])) {
-                    if ($s != '') {
-                        $s .= '|';
-                    }
-                    $s .= $key . ':' . $path[$key];
-                }
-            }
-            if (isset($path['points'])) {
-                $points = $path['points'];
-                foreach ($points as $point) {
-                    $lat = number_format($point['lat'], 6, '.', '');
-                    $lng = number_format($point['lng'], 6, '.', '');
-                    if ($s != '') {
-                        $s .= '|';
-                    }
-                    $s .= $lat . ',' . $lng;
-                }
-            }
-            $url .= '&path=' . rawurlencode($s);
-        }
+        $paths = isset($map['paths']) ? $map['paths'] : '';
+		if ($paths != '') {
+			foreach ($paths as $path) {
+				$s = '';
+				foreach (['color', 'weight'] as $key) {
+					if (isset($path[$key])) {
+						if ($s != '') {
+							$s .= '|';
+						}
+						$s .= $key . ':' . $path[$key];
+					}
+				}
+				if (isset($path['points'])) {
+					$points = $path['points'];
+					foreach ($points as $point) {
+						$lat = number_format($point['lat'], 6, '.', '');
+						$lng = number_format($point['lng'], 6, '.', '');
+						if ($s != '') {
+							$s .= '|';
+						}
+						$s .= $lat . ',' . $lng;
+					}
+				}
+				$url .= '&path=' . rawurlencode($s);
+			}
+		}
 
         return $url;
     }
+
 }
