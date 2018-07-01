@@ -19,18 +19,20 @@
 
 ## 1. Funktionsumfang
 
-Erstellen von statischen und dynamischen Karten von GoogleMaps.
+Erstellen von dynamischen, statischen und eingebetten Karten von GoogleMaps.
 
-a) statisch Karten
+a) dynamische Karten
+bei diesen Karten sind alle bekannten Mechanismen (zoomen, verschieben) vorhanden sowie auch Routenplanung und Verkehrslage (noch in Arbeit)
+Diese API setzt im Aufruf JavaScript voraus; nach meinen bisherigen Tests ist die Einbindung im IPS nur über den Umweg über ein WebHook oder eine HTML-Seite im User-Verzeichnis möglich
+
+b) statisch Karten
 diese Art der Karte ist ein Images, in dem Markierungen und Pfade eingezeichnet sind.
 Die typische Interaktion (z.B. zoomen, verschieben) ist nicht möglich. Die üblichen Sichten (Karte, Satellit ...) werden unterstützt, nicht aber Routenplanung, Verkehrslage etc.
 
 Der Abruf erfolgt komplett über eine normale (wenn auch komplexe) URL, die Einbindung im IPS kann ganz normal über eine HTML-Box erfolgen.
 
-b) dynamische Karten
-bei diesen Karten sind alle bekannten Mechanismen (zoomen, verschieben) vorhanden sowie auch Routenplanung und Verkehrslage (noch in Arbeit)
-Diese API setzt im Aufruf JavaScript voraus; nach meinen bisherigen Tests ist die Einbindung im IPS nur über den Umweg über ein WebHook oder eine HTML-Seite im User-Verzeichnis möglich
-
+c) engebettete Karten
+das sind Karten mit Sonderfunktion, zur Zeit wird nur _*directions*_ (Wegekarte) unterstützt
 
 Grundsätzlich ist nach den letzten Änderungen laut Dokumentation von Google ein Zugriff auf Karten von GoogleMaps nur noch mit einen API-Key möglich. Bei den statischen Maps scheint der Zugriff aber noch ohen API-Key zu funktionieren.
 Dieser API-Key setzt eine Registrierung bei Google voraus und eine Angabe eine Zahlungsmittels. ∆s gibt nach meinem Verständnis ein monatliches Guthaben von 200$, das nach der jetzigen Preisliste für 28.500 Aufrufe von dynamischen Karten/Monat bzw. 100.000 statischen Karte bzw. 40.000 Routen ausreicht.
@@ -40,9 +42,10 @@ Achtung: meine Informationen haben Stand 06/2018, stellen nur meine Meinung dar 
 
 Der API-Key kann hier https://developers.google.com/maps/documentation/javascript/get-api-key?hl=de erstellt werden.
 
-Für die Karten muss man zwei API's aktivieren: _*Maps Javascript API*_ und _*Maps Static API*_
+Für die Karten muss man die benötigten API's (siehe unten) aktivieren und ggfs in dem Projekt unter API-Beschränkungen eintragen.
 
 ![API-Übersicht](docs/API-Übersicht.png?raw=true "Übersicht")
+![API-Bibliothek](docs/API-Bibliothek.png?raw=true "Bibliothek")
 ![API-Beschränkungen](docs/API-Beschränkungen.png?raw=true "Beschränkungen")
 
 ## 2. Voraussetzungen
@@ -78,14 +81,16 @@ In dem Konfigurationsdialog den API-Key von GoogleMaps eintragen.
 
 'GoogleMaps_GenerateDynamicMap(integer $InstanzID, $map)`
 
-API-Dokumentation: https://developers.google.com/maps/documentation/javascript/tutorial?hl=de<br>
+API-Dokumentation: https://developers.google.com/maps/documentation/javascript/tutorial,
+https://developers.google.com/maps/documentation/javascript/reference/3/
+<br>
 Beispiel: `docs/GoogleMaps_GenerateDynamicMap_WebHook.php` und `docs/GoogleMaps_GenerateDynamicMap_HtmlBox.php`
 
 ### statische Karte (Maps Static API)
 
 'GoogleMaps_GenerateStaticMap(integer $InstanzID, $map)`
 
-API-Dokumentation: https://developers.google.com/maps/documentation/maps-static/intro?hl=de<br>
+API-Dokumentation: https://developers.google.com/maps/documentation/maps-static/intro<br>
 Beispiel: `docs/GoogleMaps_GenerateStaticMap.php`
 
 ### eingebettete Karte (Maps Embed API)
