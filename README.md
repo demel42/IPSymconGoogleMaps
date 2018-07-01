@@ -44,8 +44,8 @@ Der API-Key kann hier https://developers.google.com/maps/documentation/javascrip
 
 Für die Karten muss man die benötigten API's (siehe unten) aktivieren und ggfs in dem Projekt unter API-Beschränkungen eintragen.
 
-![API-Übersicht](docs/API-Übersicht.png?raw=true "Übersicht")
 ![API-Bibliothek](docs/API-Bibliothek.png?raw=true "Bibliothek")
+![API-Übersicht](docs/API-Übersicht.png?raw=true "Übersicht")
 ![API-Beschränkungen](docs/API-Beschränkungen.png?raw=true "Beschränkungen")
 
 ## 2. Voraussetzungen
