@@ -1,4 +1,4 @@
-<?
+<?php
 
 // allgemeine Angaben zur Karte
 $map = [];

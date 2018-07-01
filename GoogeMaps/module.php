@@ -23,20 +23,20 @@ class GoogleMaps extends IPSModule
         $this->SetStatus(102);
     }
 
-		private function getMyLocation()
-		{
-			$id = IPS_GetObjectIDByName("Location", 0);
-			if (IPS_GetKernelVersion() >= 5) {
-				$loc = IPS_GetProperty($id, 'Location');
-				$lat = $loc->latitude;
-				$lng = $loc->longitude;
-			} else {
-				$lat = IPS_GetProperty($id, 'Latitude');
-				$lng = IPS_GetProperty($id, 'Longitude');
-			}
-			$loc = json_encode([ 'lng' => $lng, 'lat' => $lat]);
-			return $loc;
-		}
+    private function getMyLocation()
+    {
+        $id = IPS_GetObjectIDByName('Location', 0);
+        if (IPS_GetKernelVersion() >= 5) {
+            $loc = IPS_GetProperty($id, 'Location');
+            $lat = $loc->latitude;
+            $lng = $loc->longitude;
+        } else {
+            $lat = IPS_GetProperty($id, 'Latitude');
+            $lng = IPS_GetProperty($id, 'Longitude');
+        }
+        $loc = json_encode(['lng' => $lng, 'lat' => $lat]);
+        return $loc;
+    }
 
     public function GenerateDynamicMap($map)
     {
@@ -151,9 +151,9 @@ class GoogleMaps extends IPSModule
         }
 
         $center = isset($map['center']) ? $map['center'] : json_decode($this->getMyLocation(), true);
-		$lat = number_format($center['lat'], 6, '.', '');
-		$lng = number_format($center['lng'], 6, '.', '');
-		$url .= '&center=' . rawurlencode($lat . ',' . $lng);
+        $lat = number_format($center['lat'], 6, '.', '');
+        $lng = number_format($center['lng'], 6, '.', '');
+        $url .= '&center=' . rawurlencode($lat . ',' . $lng);
 
         foreach (['zoom', 'size', 'scale', 'maptype'] as $key) {
             if (isset($map[$key])) {
@@ -242,54 +242,56 @@ class GoogleMaps extends IPSModule
             return '';
         }
 
-		// basic_mode: directions, place, search, view, streetview
+        // basic_mode: directions, place, search, view, streetview
         $basic_mode = isset($map['basic_mode']) ? $map['basic_mode'] : 'directions';
 
         $url = 'https://www.google.com/maps/embed/v1/' . $basic_mode . '?key=' . $api_key;
 
-		if ($basic_mode == 'directions') {
-			if (isset($map['origin'])) {
-				if (isset($map['origin']['lat']) && isset($map['origin']['lng'])) {
-					$lat = $map['origin']['lat'];
-					$lng = $map['origin']['lng'];
-					$origin = $lat . ',' . $lng;
-					$origin = number_format($lat, 6, '.', '') . ',' . number_format($lng, 6, '.', '');
-				} else {
-					$origin = $map['origin'];
-				}
-				$url .= '&origin=' . rawurlencode($origin);
-			}
+        if ($basic_mode == 'directions') {
+            if (isset($map['origin'])) {
+                if (isset($map['origin']['lat']) && isset($map['origin']['lng'])) {
+                    $lat = $map['origin']['lat'];
+                    $lng = $map['origin']['lng'];
+                    $origin = $lat . ',' . $lng;
+                    $origin = number_format($lat, 6, '.', '') . ',' . number_format($lng, 6, '.', '');
+                } else {
+                    $origin = $map['origin'];
+                }
+                $url .= '&origin=' . rawurlencode($origin);
+            }
 
-			if (isset($map['destination'])) {
-				if (isset($map['destination']['lat']) && isset($map['destination']['lng'])) {
-					$lat = number_format($map['destination']['lat'], 6, '.', '');
-					$lng = number_format($map['destination']['lng'], 6, '.', '');
-					$destination = $lat . ',' . $lng;
-				} else {
-					$destination = $map['destination'];
-				}
-				$url .= '&destination=' . rawurlencode($destination);
-			}
+            if (isset($map['destination'])) {
+                if (isset($map['destination']['lat']) && isset($map['destination']['lng'])) {
+                    $lat = number_format($map['destination']['lat'], 6, '.', '');
+                    $lng = number_format($map['destination']['lng'], 6, '.', '');
+                    $destination = $lat . ',' . $lng;
+                } else {
+                    $destination = $map['destination'];
+                }
+                $url .= '&destination=' . rawurlencode($destination);
+            }
 
-			// avoid : tolls, ferries, highways
-			$avoid = isset($map['avoid']) ? $map['avoid'] : '';
-			if ($avoid != '') {
-				$s = '';
-				foreach ($avoid as $a) {
-					if ($s != '') { $s .= '|'; }
-					$s .= $a;
-				}
-				$url .= '&avoid=' . rawurlencode($s);
-			}
+            // avoid : tolls, ferries, highways
+            $avoid = isset($map['avoid']) ? $map['avoid'] : '';
+            if ($avoid != '') {
+                $s = '';
+                foreach ($avoid as $a) {
+                    if ($s != '') {
+                        $s .= '|';
+                    }
+                    $s .= $a;
+                }
+                $url .= '&avoid=' . rawurlencode($s);
+            }
 
-			// mode : driving, walking, bicycling, transit, flying
-			if (isset($map['mode'])) {
-				$url .= '&mode=' . rawurlencode($map['mode']);
-			}
-		} else {
+            // mode : driving, walking, bicycling, transit, flying
+            if (isset($map['mode'])) {
+                $url .= '&mode=' . rawurlencode($map['mode']);
+            }
+        } else {
             $this->LogMessage(__FUNCTION__ . ': unsupported basic-mode "' . $basic_mode . '"', KL_WARNING);
-			$url = '';
-		}
+            $url = '';
+        }
 
         return $url;
     }
