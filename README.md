@@ -34,24 +34,10 @@ Der Abruf erfolgt komplett über eine normale (wenn auch komplexe) URL, die Einb
 c) eingebettete Karten
 das sind Karten mit Sonderfunktion, zur Zeit wird nur __directions__ (Wegekarte) unterstützt
 
-Grundsätzlich ist nach den letzten Änderungen laut Dokumentation von Google ein Zugriff auf Karten von GoogleMaps nur noch mit einen API-Key möglich. Bei den statischen Maps scheint der Zugriff aber noch ohen API-Key zu funktionieren.
-Dieser API-Key setzt eine Registrierung bei Google voraus und eine Angabe eine Zahlungsmittels. Es gibt nach meinem Verständnis ein monatliches Guthaben von 200$, das nach der jetzigen Preisliste für 28.500 Aufrufe von dynamischen Karten/Monat bzw. 100.000 statischen Karte bzw. 40.000 Routen ausreicht.
-siehe https://cloud.google.com/maps-platform/pricing/?hl=de
-
-Achtung: meine Informationen haben Stand 06/2018, stellen nur meine Meinung dar und natürlich übernehme ich keine Gewähr für die Richtigkeit!
-
-Der API-Key kann hier https://developers.google.com/maps/documentation/javascript/get-api-key?hl=de erstellt werden.
-
-Für die Karten muss man die benötigten API's (siehe unten) aktivieren und ggfs in dem Projekt unter API-Beschränkungen eintragen.
-
-![API-Bibliothek](docs/API-Bibliothek.png?raw=true "Bibliothek")
-![API-Übersicht](docs/API-Übersicht.png?raw=true "Übersicht")
-![API-Beschränkungen](docs/API-Beschränkungen.png?raw=true "Beschränkungen")
-
 ## 2. Voraussetzungen
 
  - IP-Symcon ab Version 4.4
- - API von GooleMaps
+ - API von GooleMaps (siehe [hier|(#7-GoogleMaps)
 
 ## 3. Installation
 
@@ -115,3 +101,19 @@ GUIDs
 - Modul: `{B15FD42A-E24E-481E-9472-3D99CFF0EE0B}`
 - Instanzen:
   - GoogleMaps: `{2C639155-4F49-4B9C-BBA5-1C7E62F1CF54}`
+
+## 7. GoogleMaps
+
+Grundsätzlich ist nach den letzten Änderungen laut Dokumentation von Google ein Zugriff auf Karten von GoogleMaps nur noch mit einen API-Key möglich. Bei den statischen Maps scheint der Zugriff aber noch ohen API-Key zu funktionieren.
+Dieser API-Key setzt eine Registrierung bei Google voraus und eine Angabe eine Zahlungsmittels. Es gibt nach meinem Verständnis ein monatliches Guthaben von 200$, das nach der jetzigen Preisliste für 28.500 Aufrufe von dynamischen Karten/Monat bzw. 100.000 statischen Karte bzw. 40.000 Routen ausreicht.
+siehe https://cloud.google.com/maps-platform/pricing/?hl=de
+
+Achtung: meine Informationen haben Stand 06/2018, stellen nur meine Meinung dar und natürlich übernehme ich keine Gewähr für die Richtigkeit!
+
+Der API-Key kann hier https://developers.google.com/maps/documentation/javascript/get-api-key?hl=de erstellt werden.
+
+Für die Karten muss man die benötigten API's (siehe unten) aktivieren und ggfs in dem Projekt unter API-Beschränkungen eintragen.
+
+![API-Bibliothek](docs/API-Bibliothek.png?raw=true "Bibliothek")
+![API-Übersicht](docs/API-Übersicht.png?raw=true "Übersicht")
+![API-Beschränkungen](docs/API-Beschränkungen.png?raw=true "Beschränkungen")
