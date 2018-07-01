@@ -31,11 +31,11 @@ Die typische Interaktion (z.B. zoomen, verschieben) ist nicht möglich. Die übl
 
 Der Abruf erfolgt komplett über eine normale (wenn auch komplexe) URL, die Einbindung im IPS kann ganz normal über eine HTML-Box erfolgen.
 
-c) engebettete Karten
-das sind Karten mit Sonderfunktion, zur Zeit wird nur _*directions*_ (Wegekarte) unterstützt
+c) eingebettete Karten
+das sind Karten mit Sonderfunktion, zur Zeit wird nur __directions__ (Wegekarte) unterstützt
 
 Grundsätzlich ist nach den letzten Änderungen laut Dokumentation von Google ein Zugriff auf Karten von GoogleMaps nur noch mit einen API-Key möglich. Bei den statischen Maps scheint der Zugriff aber noch ohen API-Key zu funktionieren.
-Dieser API-Key setzt eine Registrierung bei Google voraus und eine Angabe eine Zahlungsmittels. ∆s gibt nach meinem Verständnis ein monatliches Guthaben von 200$, das nach der jetzigen Preisliste für 28.500 Aufrufe von dynamischen Karten/Monat bzw. 100.000 statischen Karte bzw. 40.000 Routen ausreicht.
+Dieser API-Key setzt eine Registrierung bei Google voraus und eine Angabe eine Zahlungsmittels. Es gibt nach meinem Verständnis ein monatliches Guthaben von 200$, das nach der jetzigen Preisliste für 28.500 Aufrufe von dynamischen Karten/Monat bzw. 100.000 statischen Karte bzw. 40.000 Routen ausreicht.
 siehe https://cloud.google.com/maps-platform/pricing/?hl=de
 
 Achtung: meine Informationen haben Stand 06/2018, stellen nur meine Meinung dar und natürlich übernehme ich keine Gewähr für die Richtigkeit!
@@ -57,9 +57,9 @@ Für die Karten muss man die benötigten API's (siehe unten) aktivieren und ggfs
 
 ### a. Laden des Moduls
 
-Die Konsole von IP-Symcon öffnen. Im Objektbaum unter Kerninstanzen die Instanz __*Modules*__ durch einen doppelten Mausklick öffnen.
+Die Konsole von IP-Symcon öffnen. Im Objektbaum unter Kerninstanzen die Instanz _Modules_ durch einen doppelten Mausklick öffnen.
 
-In der _Modules_ Instanz rechts oben auf den Button __*Hinzufügen*__ drücken.
+In der _Modules_ Instanz rechts oben auf den Button _Hinzufügen_ drücken.
 
 In dem sich öffnenden Fenster folgende URL hinzufügen:
 
