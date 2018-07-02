@@ -132,29 +132,29 @@ class GoogleMaps extends IPSModule
 
         if ($layers != '') {
             foreach ($layers as $layer) {
-				switch ($layer) {
-					case 'traffic':
-						$html .= '
+                switch ($layer) {
+                    case 'traffic':
+                        $html .= '
 				var trafficLayer = new google.maps.TrafficLayer();
 				trafficLayer.setMap(map);
 ';
-						break;
-					case 'transit':
-						$html .= '
+                        break;
+                    case 'transit':
+                        $html .= '
 				var transitLayer = new google.maps.TransitLayer();
 				transitLayer.setMap(map);
 ';
-						break;
+                        break;
 
-					case 'bike':
-						$html .= '
+                    case 'bike':
+                        $html .= '
 				var bikeLayer = new google.maps.BicyclingLayer();
 				bikeLayer.setMap(map);
 ';
-						break;
-					default:
-						break;
-				}
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 
