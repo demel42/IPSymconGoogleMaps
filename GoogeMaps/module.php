@@ -53,6 +53,7 @@ class GoogleMaps extends IPSModule
         $infowindow_options = isset($map['infowindow_options']) ? $map['infowindow_options'] : '';
         $markers = isset($map['markers']) ? $map['markers'] : '';
         $paths = isset($map['paths']) ? $map['paths'] : '';
+        $layers = isset($map['layers']) ? $map['layers'] : '';
 
         // Kopf
         $html = '
@@ -126,6 +127,34 @@ class GoogleMaps extends IPSModule
                 var polyline = new google.maps.Polyline(polylineOptions);
                 polyline.setMap(map);
 ';
+            }
+        }
+
+        if ($layers != '') {
+            foreach ($layers as $layer) {
+				switch ($layer) {
+					case 'traffic':
+						$html .= '
+				var trafficLayer = new google.maps.TrafficLayer();
+				trafficLayer.setMap(map);
+';
+						break;
+					case 'transit':
+						$html .= '
+				var transitLayer = new google.maps.TransitLayer();
+				transitLayer.setMap(map);
+';
+						break;
+
+					case 'bike':
+						$html .= '
+				var bikeLayer = new google.maps.BicyclingLayer();
+				bikeLayer.setMap(map);
+';
+						break;
+					default:
+						break;
+				}
             }
         }
 
