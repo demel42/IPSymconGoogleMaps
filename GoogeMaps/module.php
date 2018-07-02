@@ -135,21 +135,21 @@ class GoogleMaps extends IPSModule
                 switch ($layer) {
                     case 'traffic':
                         $html .= '
-				var trafficLayer = new google.maps.TrafficLayer();
-				trafficLayer.setMap(map);
+                var trafficLayer = new google.maps.TrafficLayer();
+                trafficLayer.setMap(map);
 ';
                         break;
                     case 'transit':
                         $html .= '
-				var transitLayer = new google.maps.TransitLayer();
-				transitLayer.setMap(map);
+                var transitLayer = new google.maps.TransitLayer();
+                transitLayer.setMap(map);
 ';
                         break;
 
                     case 'bike':
                         $html .= '
-				var bikeLayer = new google.maps.BicyclingLayer();
-				bikeLayer.setMap(map);
+                var bikeLayer = new google.maps.BicyclingLayer();
+                bikeLayer.setMap(map);
 ';
                         break;
                     default:
