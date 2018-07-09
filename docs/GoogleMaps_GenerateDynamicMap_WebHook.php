@@ -101,5 +101,7 @@ $paths[] = $path;
 
 $map['paths'] = $paths;
 
-$html = GoogleMaps_GenerateDynamicMap(1234 /* ID von GoogleMaps-Instanz */, $map);
+// $map['layers'] = []; // traffic, transit, bike
+
+$html = GoogleMaps_GenerateDynamicMap(1234 /* ID von GoogleMaps-Instanz */, json_encode($map));
 echo $html;

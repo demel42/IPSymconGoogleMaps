@@ -67,7 +67,7 @@ $paths[] = [
 
 $map['paths'] = $paths;
 
-$url = GoogleMaps_GenerateStaticMap(1234 /* ID von GoogleMaps-Instanz */, $map);
+$url = GoogleMaps_GenerateStaticMap(1234 /* ID von GoogleMaps-Instanz */, json_encode($map));
 
 $html = '<img width="500", height="500" src="' . $url . '" />';
 SetValueString(4711 /* ID von HtmlBox-Variable */, $html);
