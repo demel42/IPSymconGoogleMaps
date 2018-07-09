@@ -19,8 +19,85 @@ class GoogleMaps extends IPSModule
 
         $api_key = $this->ReadPropertyString('api_key');
 
-        //$this->SetStatus($api_key == '' ? 104 : 102);
+        $this->SetStatus($api_key == '' ? 104 : 102);
         $this->SetStatus(102);
+    }
+
+	public function VerifyConfiguration()
+	{
+		$msg = $this->Translate('Status') . ':';
+
+        $api_key = $this->ReadPropertyString('api_key');
+    	
+		// GenerateStaticMap
+		$map['size'] = '500x500';
+		$url = $this->GenerateStaticMap(json_encode($map));
+		$s = $this->check_url($url);
+		$this->SendDebug(__FUNCTION__, 'result=' . $s, 0);
+		if ( $msg != '' ) { $msg .= "\n"; }
+		$msg .= ' - StaticMap: ' . ($s == '' ? 'ok' : $s);
+
+		// GenerateEmbededMap
+		$url = 'https://www.google.com/maps/embed/v1/directions?key=' . $api_key;
+		$map['origin'] = 'Rheinallee 1, 53173 Bonn, DE';
+		$map['destination'] = 'Barbarossaplatz 1, 50674 Köln, DE';
+		$url = $this->GenerateEmbededMap(json_encode($map));
+		$s = $this->check_url($url);
+		$this->SendDebug(__FUNCTION__, 'result=' . $s, 0);
+		if ( $msg != '' ) { $msg .= "\n"; }
+		$msg .= ' - EmbededMap: ' . ($s == '' ? 'ok' : $s);
+
+		// GenerateDynamicMap
+		$url = 'https://maps.googleapis.com/maps/api/js?key=' . $api_key;
+		$s = $this->check_url($url);
+		$this->SendDebug(__FUNCTION__, 'result=' . $s, 0);
+		if ( $msg != '' ) { $msg .= "\n"; }
+		$msg .= ' - DynamicMap: ' . $this->Translate('no simple method to check avail');
+
+		echo $msg;
+	}
+
+    private function check_url($url)
+    {
+        $this->SendDebug(__FUNCTION__, 'http-get: url=' . $url, 0);
+        $time_start = microtime(true);
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+        $cdata = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        $duration = floor((microtime(true) - $time_start) * 100) / 100;
+        $this->SendDebug(__FUNCTION__, ' => httpcode=' . $httpcode . ', duration=' . $duration . 's', 0);
+
+        $statuscode = 0;
+        $err = '';
+        if ($httpcode != 200) {
+            if ($httpcode == 403) {
+                $err = "got http-code $httpcode (forbidden)";
+                $statuscode = 204;
+            } elseif ($httpcode >= 500 && $httpcode <= 599) {
+                $statuscode = 202;
+                $err = "got http-code $httpcode (server error)";
+            } else {
+                $err = "got http-code $httpcode";
+                $statuscode = 203;
+            }
+        } else {
+			$cdata = '';
+		}
+
+        if ($statuscode) {
+            $this->SendDebug(__FUNCTION__, ' => statuscode=' . $statuscode . ', err=' . $err, 0);
+            $this->SetStatus($statuscode);
+        }
+
+        return $cdata;
     }
 
     private function getMyLocation()
@@ -38,7 +115,7 @@ class GoogleMaps extends IPSModule
         return $loc;
     }
 
-    public function GenerateDynamicMap($map)
+    public function GenerateDynamicMap(string $data)
     {
         $api_key = $this->ReadPropertyString('api_key');
         if ($api_key == '') {
@@ -48,6 +125,7 @@ class GoogleMaps extends IPSModule
 
         $url = 'https://maps.googleapis.com/maps/api/js?key=' . $api_key;
 
+		$map = json_decode($data, true);
         $center = isset($map['center']) ? $map['center'] : json_decode($this->getMyLocation(), true);
         $map_options = isset($map['map_options']) ? $map['map_options'] : '';
         $infowindow_options = isset($map['infowindow_options']) ? $map['infowindow_options'] : '';
@@ -170,7 +248,7 @@ class GoogleMaps extends IPSModule
         return $html;
     }
 
-    public function GenerateStaticMap($map)
+    public function GenerateStaticMap(string $data)
     {
         $url = 'https://maps.googleapis.com/maps/api/staticmap?key=';
 
@@ -179,6 +257,7 @@ class GoogleMaps extends IPSModule
             $url .= $api_key;
         }
 
+		$map = json_decode($data, true);
         $center = isset($map['center']) ? $map['center'] : json_decode($this->getMyLocation(), true);
         $lat = number_format($center['lat'], 6, '.', '');
         $lng = number_format($center['lng'], 6, '.', '');
@@ -263,13 +342,15 @@ class GoogleMaps extends IPSModule
         return $url;
     }
 
-    public function GenerateEmbededMap($map)
+    public function GenerateEmbededMap(string $data)
     {
         $api_key = $this->ReadPropertyString('api_key');
         if ($api_key == '') {
             $this->LogMessage(__FUNCTION__ . ': a valid API-Key is requіred', KL_WARNING);
             return '';
         }
+
+		$map = json_decode($data, true);
 
         // basic_mode: directions, place, search, view, streetview
         $basic_mode = isset($map['basic_mode']) ? $map['basic_mode'] : 'directions';

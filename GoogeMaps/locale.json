@@ -2,10 +2,19 @@
 	"translations": {
 		"de": {
 			"API-Key": "API-Key",
+			"Verify Configuration": "Prüfe Konfiguration",
+
+			"Status": "Status",
+			"no simple method to check avail": "keine einfache Prüfmethode verfügbar",
 
 			"Instance getting created": "Instanz wird erstellt",
 			"Instance is active": "Instanz ist aktiv",
-			"Instance is inactive": "Instanz ist inaktiv"
+			"Instance is inactive": "Instanz ist inaktiv",
+
+			"Instance is inactive (invalid configuration)": "Instanz ist inaktiv (ungültige Konfiguration)",
+			"Instance is inactive (server error)": "Instanz ist inaktiv (Serverfehler)",
+			"Instance is inactive (http error)": "Instanz ist inaktiv (HTTP-Fehler)",
+			"Instance is inactive (access forbidden)": "Instanz ist inaktiv (Zugriff nicht erlaubt)"
 		}
 	}
 }
