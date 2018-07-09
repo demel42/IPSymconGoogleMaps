@@ -23,39 +23,45 @@ class GoogleMaps extends IPSModule
         $this->SetStatus(102);
     }
 
-	public function VerifyConfiguration()
-	{
-		$msg = $this->Translate('Status') . ':';
+    public function VerifyConfiguration()
+    {
+        $msg = $this->Translate('Status') . ':';
 
         $api_key = $this->ReadPropertyString('api_key');
-    	
-		// GenerateStaticMap
-		$map['size'] = '500x500';
-		$url = $this->GenerateStaticMap(json_encode($map));
-		$s = $this->check_url($url);
-		$this->SendDebug(__FUNCTION__, 'result=' . $s, 0);
-		if ( $msg != '' ) { $msg .= "\n"; }
-		$msg .= ' - StaticMap: ' . ($s == '' ? 'ok' : $s);
 
-		// GenerateEmbededMap
-		$url = 'https://www.google.com/maps/embed/v1/directions?key=' . $api_key;
-		$map['origin'] = 'Rheinallee 1, 53173 Bonn, DE';
-		$map['destination'] = 'Barbarossaplatz 1, 50674 Köln, DE';
-		$url = $this->GenerateEmbededMap(json_encode($map));
-		$s = $this->check_url($url);
-		$this->SendDebug(__FUNCTION__, 'result=' . $s, 0);
-		if ( $msg != '' ) { $msg .= "\n"; }
-		$msg .= ' - EmbededMap: ' . ($s == '' ? 'ok' : $s);
+        // GenerateStaticMap
+        $map['size'] = '500x500';
+        $url = $this->GenerateStaticMap(json_encode($map));
+        $s = $this->check_url($url);
+        $this->SendDebug(__FUNCTION__, 'result=' . $s, 0);
+        if ($msg != '') {
+            $msg .= "\n";
+        }
+        $msg .= ' - StaticMap: ' . ($s == '' ? 'ok' : $s);
 
-		// GenerateDynamicMap
-		$url = 'https://maps.googleapis.com/maps/api/js?key=' . $api_key;
-		$s = $this->check_url($url);
-		$this->SendDebug(__FUNCTION__, 'result=' . $s, 0);
-		if ( $msg != '' ) { $msg .= "\n"; }
-		$msg .= ' - DynamicMap: ' . $this->Translate('no simple method to check avail');
+        // GenerateEmbededMap
+        $url = 'https://www.google.com/maps/embed/v1/directions?key=' . $api_key;
+        $map['origin'] = 'Rheinallee 1, 53173 Bonn, DE';
+        $map['destination'] = 'Barbarossaplatz 1, 50674 Köln, DE';
+        $url = $this->GenerateEmbededMap(json_encode($map));
+        $s = $this->check_url($url);
+        $this->SendDebug(__FUNCTION__, 'result=' . $s, 0);
+        if ($msg != '') {
+            $msg .= "\n";
+        }
+        $msg .= ' - EmbededMap: ' . ($s == '' ? 'ok' : $s);
 
-		echo $msg;
-	}
+        // GenerateDynamicMap
+        $url = 'https://maps.googleapis.com/maps/api/js?key=' . $api_key;
+        $s = $this->check_url($url);
+        $this->SendDebug(__FUNCTION__, 'result=' . $s, 0);
+        if ($msg != '') {
+            $msg .= "\n";
+        }
+        $msg .= ' - DynamicMap: ' . $this->Translate('no simple method to check avail');
+
+        echo $msg;
+    }
 
     private function check_url($url)
     {
@@ -89,8 +95,8 @@ class GoogleMaps extends IPSModule
                 $statuscode = 203;
             }
         } else {
-			$cdata = '';
-		}
+            $cdata = '';
+        }
 
         if ($statuscode) {
             $this->SendDebug(__FUNCTION__, ' => statuscode=' . $statuscode . ', err=' . $err, 0);
@@ -125,7 +131,7 @@ class GoogleMaps extends IPSModule
 
         $url = 'https://maps.googleapis.com/maps/api/js?key=' . $api_key;
 
-		$map = json_decode($data, true);
+        $map = json_decode($data, true);
         $center = isset($map['center']) ? $map['center'] : json_decode($this->getMyLocation(), true);
         $map_options = isset($map['map_options']) ? $map['map_options'] : '';
         $infowindow_options = isset($map['infowindow_options']) ? $map['infowindow_options'] : '';
@@ -257,7 +263,7 @@ class GoogleMaps extends IPSModule
             $url .= $api_key;
         }
 
-		$map = json_decode($data, true);
+        $map = json_decode($data, true);
         $center = isset($map['center']) ? $map['center'] : json_decode($this->getMyLocation(), true);
         $lat = number_format($center['lat'], 6, '.', '');
         $lng = number_format($center['lng'], 6, '.', '');
@@ -350,7 +356,7 @@ class GoogleMaps extends IPSModule
             return '';
         }
 
-		$map = json_decode($data, true);
+        $map = json_decode($data, true);
 
         // basic_mode: directions, place, search, view, streetview
         $basic_mode = isset($map['basic_mode']) ? $map['basic_mode'] : 'directions';
