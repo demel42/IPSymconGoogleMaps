@@ -37,7 +37,7 @@ das sind Karten mit Sonderfunktion, zur Zeit wird nur __directions__ (Wegekarte)
 ## 2. Voraussetzungen
 
  - IP-Symcon ab Version 4.4
- - API von GooleMaps (siehe [hier|(#7-GoogleMaps)
+ - API von GooleMaps (siehe [hier|(#7-GoogleMaps)]
 
 ## 3. Installation
 
@@ -64,11 +64,11 @@ In dem Konfigurationsdialog den API-Key von GoogleMaps eintragen.
 ## 4. Funktionsreferenz
 
 Alle Konfigurationen werden als json-encoded-String übergeben. Dabei werden, soweit möglich, die orinigal Bezeichnungen als Element-Name verwendet. In der Javascript-API werden die entsprechnden Strukturen 1:1 weitergegeben… damizt sind die in der Dokumentation beschriebenen Einstellungen möglich.
-In den Beispilen sind die Strくkturen soweit möglich erklärt, Details sind in den angegeben API-Dokumenten zu finden.
+In den Beispielen sind die Strukturen soweit möglich erklärt, Details sind in den unten angegeben API-Dokumenten zu finden.
 
 ### dynamische Karte (Maps JavaScript API)
 
-'GoogleMaps_GenerateDynamicMap(integer $InstanzID, $map)`
+'GoogleMaps_GenerateDynamicMap(integer $InstanzID, string $jsonData)`
 
 API-Dokumentation: https://developers.google.com/maps/documentation/javascript/tutorial,
 https://developers.google.com/maps/documentation/javascript/reference/3/
@@ -77,14 +77,14 @@ Beispiel: `docs/GoogleMaps_GenerateDynamicMap_WebHook.php` und `docs/GoogleMaps_
 
 ### statische Karte (Maps Static API)
 
-'GoogleMaps_GenerateStaticMap(integer $InstanzID, $map)`
+'GoogleMaps_GenerateStaticMap(integer $InstanzID, string $jsonData)`
 
 API-Dokumentation: https://developers.google.com/maps/documentation/maps-static/intro<br>
 Beispiel: `docs/GoogleMaps_GenerateStaticMap.php`
 
 ### eingebettete Karte (Maps Embed API)
 
-'GoogleMaps_GenerateEmbededMap(integer $InstanzID, $map)`
+'GoogleMaps_GenerateEmbededMap(integer $InstanzID, string $jsonData)`
 
 API-Dokumentation: https://developers.google.com/maps/documentation/embed/guide<br>
 Beispiel: `docs/GoogleMaps_GenerateEmbededMap.php`
