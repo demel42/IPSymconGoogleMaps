@@ -63,6 +63,9 @@ In dem Konfigurationsdialog den API-Key von GoogleMaps eintragen.
 
 ## 4. Funktionsreferenz
 
+Alle Konfigurationen werden als json-encoded-String übergeben. Dabei werden, soweit möglich, die orinigal Bezeichnungen als Element-Name verwendet. In der Javascript-API werden die entsprechnden Strukturen 1:1 weitergegeben… damizt sind die in der Dokumentation beschriebenen Einstellungen möglich.
+In den Beispilen sind die Strくkturen soweit möglich erklärt, Details sind in den angegeben API-Dokumenten zu finden.
+
 ### dynamische Karte (Maps JavaScript API)
 
 'GoogleMaps_GenerateDynamicMap(integer $InstanzID, $map)`
@@ -81,7 +84,7 @@ Beispiel: `docs/GoogleMaps_GenerateStaticMap.php`
 
 ### eingebettete Karte (Maps Embed API)
 
-'GoogleMaps_GenerateStaticMap(integer $InstanzID, $map)`
+'GoogleMaps_GenerateEmbededMap(integer $InstanzID, $map)`
 
 API-Dokumentation: https://developers.google.com/maps/documentation/embed/guide<br>
 Beispiel: `docs/GoogleMaps_GenerateEmbededMap.php`
@@ -93,6 +96,8 @@ Beispiel: `docs/GoogleMaps_GenerateEmbededMap.php`
 | Eigenschaft               | Typ      | Standardwert | Beschreibung |
 | :-----------------------: | :-----:  | :----------: | :------------------------------------------------------------------: |
 | api_key                   | string   |              | API-Key von GoogleMaps |
+
+Zur Unterstützung der Konfiguration gibt es die Schaltfläche _Prüfe Konfigurætion_, die versucht, eine entsprechenden HTTP-Call zu machen und so den API.Key und die Berechtigungen zu testen. Für __GoogleMaps_GenerateDynamicMap__ gibt es leider keine einfache Möglichkeit.
 
 ## 6. Anhang
 
