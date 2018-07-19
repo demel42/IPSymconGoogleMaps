@@ -368,12 +368,12 @@ class GoogleMaps extends IPSModule
             }
         }
 
-		$n = strlen($url);
-		if ($n > 8192) {
-			$this->SendDebug(__FUNCTION__, 'size of url=' . $n . ' (max=8192), url=' . $url, 0);
+        $n = strlen($url);
+        if ($n > 8192) {
+            $this->SendDebug(__FUNCTION__, 'size of url=' . $n . ' (max=8192), url=' . $url, 0);
             $this->LogMessage(__FUNCTION__ . ': size of url=' . $n . ', max=8192', KL_WARNING);
-			$url = '';
-		}
+            $url = '';
+        }
 
         return $url;
     }
