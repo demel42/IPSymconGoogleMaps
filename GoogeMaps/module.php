@@ -181,10 +181,10 @@ class GoogleMaps extends IPSModule
         <script type="text/javascript">
             function initialize() {
 ';
-            $lng = (float) $this->format_float($center['lng'], 6);
-            $lat = (float) $this->format_float($center['lat'], 6);
-			$loc = [ 'lng' => $lng, 'lat' => $lat ];
-            $html .= '
+        $lng = (float) $this->format_float($center['lng'], 6);
+        $lat = (float) $this->format_float($center['lat'], 6);
+        $loc = ['lng' => $lng, 'lat' => $lat];
+        $html .= '
                 var center = new google.maps.LatLng(' . json_encode($loc) . ');
                 var mapOptions = ' . json_encode($map_options) . ';
                 mapOptions.center = center;
@@ -199,14 +199,15 @@ class GoogleMaps extends IPSModule
         if ($markers != '') {
             foreach ($markers as $marker) {
                 $marker_points = isset($marker['points']) ? $marker['points'] : [];
-                if ($marker_points == [])
+                if ($marker_points == []) {
                     continue;
-				$locs = [];
-				foreach ($marker_points as $marker_point) {
-					$lng = (float) $this->format_float($marker_point['lng'], 6);
-					$lat = (float) $this->format_float($marker_point['lat'], 6);
-					$locs[] = [ 'lng' => $lng, 'lat' => $lat ];
-				}
+                }
+                $locs = [];
+                foreach ($marker_points as $marker_point) {
+                    $lng = (float) $this->format_float($marker_point['lng'], 6);
+                    $lat = (float) $this->format_float($marker_point['lat'], 6);
+                    $locs[] = ['lng' => $lng, 'lat' => $lat];
+                }
                 $marker_options = isset($marker['marker_options']) ? $marker['marker_options'] : '';
                 $html .= '
                 var markerLocations = ' . json_encode($locs) . ';
@@ -238,14 +239,15 @@ class GoogleMaps extends IPSModule
         if ($paths != '') {
             foreach ($paths as $path) {
                 $path_points = isset($path['points']) ? $path['points'] : [];
-                if ($path_points == [])
+                if ($path_points == []) {
                     continue;
-				$locs = [];
-				foreach ($path_points as $path_point) {
-					$lng = (float) $this->format_float($path_point['lng'], 6);
-					$lat = (float) $this->format_float($path_point['lat'], 6);
-					$locs[] = [ 'lng' => $lng, 'lat' => $lat ];
-				}
+                }
+                $locs = [];
+                foreach ($path_points as $path_point) {
+                    $lng = (float) $this->format_float($path_point['lng'], 6);
+                    $lat = (float) $this->format_float($path_point['lat'], 6);
+                    $locs[] = ['lng' => $lng, 'lat' => $lat];
+                }
                 $polyline_options = isset($path['polyline_options']) ? $path['polyline_options'] : '';
                 $html .= '
                 var polylineOptions = ' . json_encode($polyline_options) . ';
