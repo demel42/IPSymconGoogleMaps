@@ -180,7 +180,12 @@ class GoogleMaps extends IPSModule
 
         <script type="text/javascript">
             function initialize() {
-                var center = new google.maps.LatLng(' . json_encode($center) . ');
+';
+            $lng = (float) $this->format_float($center['lng'], 6);
+            $lat = (float) $this->format_float($center['lat'], 6);
+			$loc = [ 'lng' => $lng, 'lat' => $lat ];
+            $html .= '
+                var center = new google.maps.LatLng(' . json_encode($loc) . ');
                 var mapOptions = ' . json_encode($map_options) . ';
                 mapOptions.center = center;
                 var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
@@ -193,10 +198,18 @@ class GoogleMaps extends IPSModule
         // Karte mit Punkten
         if ($markers != '') {
             foreach ($markers as $marker) {
-                $marker_points = isset($marker['points']) ? $marker['points'] : '';
+                $marker_points = isset($marker['points']) ? $marker['points'] : [];
+                if ($marker_points == [])
+                    continue;
+				$locs = [];
+				foreach ($marker_points as $marker_point) {
+					$lng = (float) $this->format_float($marker_point['lng'], 6);
+					$lat = (float) $this->format_float($marker_point['lat'], 6);
+					$locs[] = [ 'lng' => $lng, 'lat' => $lat ];
+				}
                 $marker_options = isset($marker['marker_options']) ? $marker['marker_options'] : '';
                 $html .= '
-                var markerLocations = ' . json_encode($marker_points) . ';
+                var markerLocations = ' . json_encode($locs) . ';
                 for(i = 0; i < markerLocations.length; i++) {
                     var position = new google.maps.LatLng(markerLocations[i]);
                     var markerOptions = ' . json_encode($marker_options) . ';
@@ -224,13 +237,21 @@ class GoogleMaps extends IPSModule
         // Karte mit verbundenen Punkten
         if ($paths != '') {
             foreach ($paths as $path) {
-                $path_points = isset($path['points']) ? $path['points'] : '';
+                $path_points = isset($path['points']) ? $path['points'] : [];
+                if ($path_points == [])
+                    continue;
+				$locs = [];
+				foreach ($path_points as $path_point) {
+					$lng = (float) $this->format_float($path_point['lng'], 6);
+					$lat = (float) $this->format_float($path_point['lat'], 6);
+					$locs[] = [ 'lng' => $lng, 'lat' => $lat ];
+				}
                 $polyline_options = isset($path['polyline_options']) ? $path['polyline_options'] : '';
                 $html .= '
                 var polylineOptions = ' . json_encode($polyline_options) . ';
                 if (polylineOptions == "")
                     polylineOptions = {};
-                polylineOptions.path = ' . json_encode($path_points) . ';;
+                polylineOptions.path = ' . json_encode($locs) . ';
                 var polyline = new google.maps.Polyline(polylineOptions);
                 polyline.setMap(map);
 ';
@@ -288,8 +309,8 @@ class GoogleMaps extends IPSModule
 
         $map = json_decode($data, true);
         $center = isset($map['center']) ? $map['center'] : json_decode($this->getMyLocation(), true);
-        $lat = $this->format_float($center['lat'], 6);
-        $lng = $this->format_float($center['lng'], 6);
+        $lat = (float) $this->format_float($center['lat'], 6);
+        $lng = (float) $this->format_float($center['lng'], 6);
         $url .= '&center=' . rawurlencode($lat . ',' . $lng);
 
         foreach (['zoom', 'size', 'scale', 'maptype'] as $key) {
@@ -329,8 +350,8 @@ class GoogleMaps extends IPSModule
                 if (isset($marker['points'])) {
                     $points = $marker['points'];
                     foreach ($points as $point) {
-                        $lat = $this->format_float($point['lat'], 6);
-                        $lng = $this->format_float($point['lng'], 6);
+                        $lat = (float) $this->format_float($point['lat'], 6);
+                        $lng = (float) $this->format_float($point['lng'], 6);
                         if ($s != '') {
                             $s .= '|';
                         }
@@ -356,8 +377,8 @@ class GoogleMaps extends IPSModule
                 if (isset($path['points'])) {
                     $points = $path['points'];
                     foreach ($points as $point) {
-                        $lat = $this->format_float($point['lat'], 6);
-                        $lng = $this->format_float($point['lng'], 6);
+                        $lat = (float) $this->format_float($point['lat'], 6);
+                        $lng = (float) $this->format_float($point['lng'], 6);
                         if ($s != '') {
                             $s .= '|';
                         }
@@ -396,10 +417,9 @@ class GoogleMaps extends IPSModule
         if ($basic_mode == 'directions') {
             if (isset($map['origin'])) {
                 if (isset($map['origin']['lat']) && isset($map['origin']['lng'])) {
-                    $lat = $map['origin']['lat'];
-                    $lng = $map['origin']['lng'];
+                    $lat = (float) $this->format_float($map['origin']['lat'], 6);
+                    $lng = (float) $this->format_float($map['origin']['lng'], 6);
                     $origin = $lat . ',' . $lng;
-                    $origin = $this->format_float($lat, 6) . ',' . $this->format_float($lng, 6);
                 } else {
                     $origin = $map['origin'];
                 }
@@ -408,8 +428,8 @@ class GoogleMaps extends IPSModule
 
             if (isset($map['destination'])) {
                 if (isset($map['destination']['lat']) && isset($map['destination']['lng'])) {
-                    $lat = $this->format_float($map['destination']['lat'], 6);
-                    $lng = $this->format_float($map['destination']['lng'], 6);
+                    $lat = (float) $this->format_float($map['destination']['lat'], 6);
+                    $lng = (float) $this->format_float($map['destination']['lng'], 6);
                     $destination = $lat . ',' . $lng;
                 } else {
                     $destination = $map['destination'];
