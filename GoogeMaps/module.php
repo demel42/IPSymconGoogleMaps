@@ -133,9 +133,9 @@ class GoogleMaps extends IPSModule
     {
         $id = IPS_GetObjectIDByName('Location', 0);
         if (IPS_GetKernelVersion() >= 5) {
-            $loc = IPS_GetProperty($id, 'Location');
-            $lat = $loc->latitude;
-            $lng = $loc->longitude;
+            $loc = json_decode(IPS_GetProperty($id, 'Location'), true);
+            $lat = $loc['latitude'];
+            $lng = $loc['longitude'];
         } else {
             $lat = IPS_GetProperty($id, 'Latitude');
             $lng = IPS_GetProperty($id, 'Longitude');
