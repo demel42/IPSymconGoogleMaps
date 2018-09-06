@@ -6,6 +6,8 @@
 	"actions":
 			[
 				{ "type": "Button", "label": "Verify Configuration", "onClick": "GoogleMaps_VerifyConfiguration($id);" }
+				{ "type": "Label", "label": "____________________________________________________________________________________________________" },
+				{ "type": "Button", "label": "Module description", "onClick": "echo 'https://github.com/demel42/IPSymconGoogleMaps/blob/master/README.md';" }
 			],
 	"status":
 			[
