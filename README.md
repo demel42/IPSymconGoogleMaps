@@ -1,7 +1,7 @@
 # IPSymconGoogleMaps
 
 [![IPS-Version](https://img.shields.io/badge/Symcon_Version-4.4+-red.svg)](https://www.symcon.de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/)
-![Module-Version](https://img.shields.io/badge/Modul_Version-0.1-blue.svg)
+![Module-Version](https://img.shields.io/badge/Modul_Version-1.1-blue.svg)
 ![Code](https://img.shields.io/badge/Code-PHP-blue.svg)
 [![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-green.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 [![StyleCI](https://github.styleci.io/repos/138596707/shield?branch=master)](https://github.styleci.io/repos/138596707)
@@ -16,6 +16,7 @@
 4. [Funktionsreferenz](#4-funktionsreferenz)
 5. [Konfiguration](#5-konfiguration)
 6. [Anhang](#6-anhang)
+7. [Versions-Historie](#7-versions-historie)
 
 ## 1. Funktionsumfang
 
@@ -107,7 +108,7 @@ GUIDs
 - Instanzen:
   - GoogleMaps: `{2C639155-4F49-4B9C-BBA5-1C7E62F1CF54}`
 
-## 7. GoogleMaps
+GoogleMaps
 
 Grundsätzlich ist nach den letzten Änderungen laut Dokumentation von Google ein Zugriff auf Karten von GoogleMaps nur noch mit einen API-Key möglich. Bei den statischen Maps scheint der Zugriff aber noch ohen API-Key zu funktionieren.
 Dieser API-Key setzt eine Registrierung bei Google voraus und eine Angabe eine Zahlungsmittels. Es gibt nach meinem Verständnis ein monatliches Guthaben von 200$, das nach der jetzigen Preisliste für 28.500 Aufrufe von dynamischen Karten/Monat bzw. 100.000 statischen Karte bzw. 40.000 Routen ausreicht.
@@ -122,3 +123,11 @@ Für die Karten muss man die benötigten API's (siehe unten) aktivieren und ggfs
 ![API-Library](docs/API-Library.png?raw=true "Bibliothek")
 ![API-Accesscontrol](docs/API-Accesscontrol.png?raw=true "Übersicht")
 ![API-Limitations](docs/API-Limitations.png?raw=true "Beschränkungen")
+
+
+## 7. Versions-Historie
+
+- 1.1 @ dd.mm.yyyy HH:MM<br>
+  Versionshistorie dazu,
+  define's der Variablentypen,
+  Schaltfläche mit Link zu README.md im Konfigurationsdialog
