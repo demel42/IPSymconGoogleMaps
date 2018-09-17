@@ -108,7 +108,7 @@ GUIDs
 - Instanzen:
   - GoogleMaps: `{2C639155-4F49-4B9C-BBA5-1C7E62F1CF54}`
 
-## 7. GoogleMaps
+GoogleMaps
 
 Grundsätzlich ist nach den letzten Änderungen laut Dokumentation von Google ein Zugriff auf Karten von GoogleMaps nur noch mit einen API-Key möglich. Bei den statischen Maps scheint der Zugriff aber noch ohen API-Key zu funktionieren.
 Dieser API-Key setzt eine Registrierung bei Google voraus und eine Angabe eine Zahlungsmittels. Es gibt nach meinem Verständnis ein monatliches Guthaben von 200$, das nach der jetzigen Preisliste für 28.500 Aufrufe von dynamischen Karten/Monat bzw. 100.000 statischen Karte bzw. 40.000 Routen ausreicht.
@@ -128,4 +128,5 @@ Für die Karten muss man die benötigten API's (siehe unten) aktivieren und ggfs
 
 - 1.1 @ 06.09.2018 18:48<br>
   Versionshistorie dazu,
+  define's der Variablentypen,
   Schaltfläche mit Link zu README.md im Konfigurationsdialog
