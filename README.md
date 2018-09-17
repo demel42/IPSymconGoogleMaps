@@ -1,7 +1,7 @@
 # IPSymconGoogleMaps
 
 [![IPS-Version](https://img.shields.io/badge/Symcon_Version-4.4+-red.svg)](https://www.symcon.de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/)
-![Module-Version](https://img.shields.io/badge/Modul_Version-0.1-blue.svg)
+![Module-Version](https://img.shields.io/badge/Modul_Version-1.1-blue.svg)
 ![Code](https://img.shields.io/badge/Code-PHP-blue.svg)
 [![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-green.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 [![StyleCI](https://github.styleci.io/repos/138596707/shield?branch=master)](https://github.styleci.io/repos/138596707)
@@ -16,6 +16,7 @@
 4. [Funktionsreferenz](#4-funktionsreferenz)
 5. [Konfiguration](#5-konfiguration)
 6. [Anhang](#6-anhang)
+7. [Versions-Historie](#7-versions-historie)
 
 ## 1. Funktionsumfang
 
@@ -122,3 +123,9 @@ Für die Karten muss man die benötigten API's (siehe unten) aktivieren und ggfs
 ![API-Library](docs/API-Library.png?raw=true "Bibliothek")
 ![API-Accesscontrol](docs/API-Accesscontrol.png?raw=true "Übersicht")
 ![API-Limitations](docs/API-Limitations.png?raw=true "Beschränkungen")
+
+## 7. Versions-Historie
+
+- 1.1 @ 06.09.2018 18:48<br>
+  Versionshistorie dazu,
+  Schaltfläche mit Link zu README.md im Konfigurationsdialog
