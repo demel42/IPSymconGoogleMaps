@@ -131,7 +131,7 @@ class GoogleMaps extends IPSModule
 
     private function getMyLocation()
     {
-		$id = IPS_GetInstanceListByModuleID('{45E97A63-F870-408A-B259-2933F7EABF74}')[0];
+        $id = IPS_GetInstanceListByModuleID('{45E97A63-F870-408A-B259-2933F7EABF74}')[0];
         if (IPS_GetKernelVersion() >= 5) {
             $loc = json_decode(IPS_GetProperty($id, 'Location'), true);
             $lat = $loc['latitude'];
