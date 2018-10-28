@@ -1,7 +1,7 @@
 # IPSymconGoogleMaps
 
 [![IPS-Version](https://img.shields.io/badge/Symcon_Version-4.4+-red.svg)](https://www.symcon.de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/)
-![Module-Version](https://img.shields.io/badge/Modul_Version-1.2-blue.svg)
+![Module-Version](https://img.shields.io/badge/Modul_Version-1.3-blue.svg)
 ![Code](https://img.shields.io/badge/Code-PHP-blue.svg)
 [![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-green.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 [![StyleCI](https://github.styleci.io/repos/138596707/shield?branch=master)](https://github.styleci.io/repos/138596707)
@@ -90,6 +90,11 @@ Beispiel: `docs/GoogleMaps_GenerateStaticMap.php`
 API-Dokumentation: https://developers.google.com/maps/documentation/embed/guide<br>
 Beispiel: `docs/GoogleMaps_GenerateEmbededMap.php`
 
+### Entfernung und Reisedauer-Berechnung (DistanceMatrix API)
+
+API-Dokumentation: https://developers.google.com/maps/documentation/distance-matrix/intro<br>
+Beispiel: `docs/GoogleMaps_GetDistanceMatrix.php`
+
 ## 5. Konfiguration:
 
 ### Variablen
@@ -125,6 +130,10 @@ Für die Karten muss man die benötigten API's (siehe unten) aktivieren und ggfs
 ![API-Limitations](docs/API-Limitations.png?raw=true "Beschränkungen")
 
 ## 7. Versions-Historie
+
+- 1.3 @ 28.10.2018 12:07<br>
+  - API _DistanceMatrix_ hinzugefügt
+  - Korrektur von GenerateStaticMap() und GenerateEmbededMap(): Fehler bei der Formatierung von Longitude und Latitude
 
 - 1.2 @ 08.10.2018 22:32<br>
   - Korrektur des Zugriffs auf _Location_

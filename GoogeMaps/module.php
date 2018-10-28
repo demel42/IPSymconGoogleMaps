@@ -25,6 +25,16 @@ if (@constant('IPS_BASE') == null) {
     define('KL_CUSTOM', IPS_LOGMESSAGE + 7);			// User Message
 }
 
+if (!defined('StatusCode_inactive')) {
+    define('StatusCode_creating', 101);
+	define('StatusCode_active', 102);
+	define('StatusCode_inactive', 104);
+	define('StatusCode_InvalidConfig', 201);
+	define('StatusCode_ServerError', 202);
+	define('StatusCode_HttpError', 203);
+	define('StatusCode_AccessForbidden', 204);
+}
+
 class GoogleMaps extends IPSModule
 {
     use GoogleMapsCommon;
@@ -42,8 +52,33 @@ class GoogleMaps extends IPSModule
 
         $api_key = $this->ReadPropertyString('api_key');
 
-        $this->SetStatus($api_key == '' ? 104 : 102);
+        $this->SetStatus($api_key == '' ? StatusCode_inactive : StatusCode_active);
         $this->SetStatus(102);
+    }
+
+    public function GetConfigurationForm()
+    {
+        $formElements = [];
+        $formElements[] = ['type' => 'ValidationTextBox', 'name' => 'api_key', 'caption' => 'API-Key'];
+
+        $formActions = [];
+        $formActions[] = ['type' => 'Button', 'label' => 'Verify Configuration', 'onClick' => 'GoogleMaps_VerifyConfiguration($id);'];
+        $formActions[] = ['type' => 'Label', 'label' => '____________________________________________________________________________________________________'];
+        $formActions[] = [
+                            'type'    => 'Button',
+                            'caption' => 'Module description',
+                            'onClick' => 'echo "https://github.com/demel42/IPSymconGoogleMaps/blob/master/README.md";'
+                        ];
+
+        $formStatus = [];
+        $formStatus[] = ['code' => StatusCode_creating, 'icon' => 'inactive', 'caption' => 'Instance getting created'];
+        $formStatus[] = ['code' => StatusCode_active, 'icon' => 'active', 'caption' => 'Instance is active'];
+        $formStatus[] = ['code' => StatusCode_inactive, 'icon' => 'inactive', 'caption' => 'Instance is inactive'];
+        $formStatus[] = ['code' => StatusCode_InvalidConfig, 'icon' => 'error', 'caption' => 'Instance is inactive (invalid configuration)'];
+        $formStatus[] = ['code' => StatusCode_ServerError, 'icon' => 'error', 'caption' => 'Instance is inactive (server error)'];
+        $formStatus[] = ['code' => StatusCode_HttpError, 'icon' => 'error', 'caption' => 'Instance is inactive (http error)'];
+        $formStatus[] = ['code' => StatusCode_AccessForbidden, 'icon' => 'error', 'caption' => 'Instance is inactive (access forbidden)'];
+        return json_encode(['elements' => $formElements, 'actions' => $formActions, 'status' => $formStatus]);
     }
 
     public function VerifyConfiguration()
@@ -55,38 +90,49 @@ class GoogleMaps extends IPSModule
         // GenerateStaticMap
         $map['size'] = '500x500';
         $url = $this->GenerateStaticMap(json_encode($map));
-        $s = $this->check_url($url);
+        $r = $this->do_HttpRequest($url, $s);
         $this->SendDebug(__FUNCTION__, 'result=' . $s, 0);
         if ($msg != '') {
             $msg .= "\n";
         }
-        $msg .= ' - StaticMap: ' . ($s == '' ? 'ok' : $s);
+        $msg .= ' - StaticMap: ' . ($r ? 'ok' : $s);
 
         // GenerateEmbededMap
         $url = 'https://www.google.com/maps/embed/v1/directions?key=' . $api_key;
         $map['origin'] = 'Rheinallee 1, 53173 Bonn, DE';
         $map['destination'] = 'Barbarossaplatz 1, 50674 Köln, DE';
         $url = $this->GenerateEmbededMap(json_encode($map));
-        $s = $this->check_url($url);
+        $r = $this->do_HttpRequest($url, $s);
         $this->SendDebug(__FUNCTION__, 'result=' . $s, 0);
         if ($msg != '') {
             $msg .= "\n";
         }
-        $msg .= ' - EmbededMap: ' . ($s == '' ? 'ok' : $s);
+        $msg .= ' - EmbededMap: ' . ($r ? 'ok' : $s);
 
         // GenerateDynamicMap
         $url = 'https://maps.googleapis.com/maps/api/js?key=' . $api_key;
-        $s = $this->check_url($url);
+        $r = $this->do_HttpRequest($url, $s);
         $this->SendDebug(__FUNCTION__, 'result=' . $s, 0);
         if ($msg != '') {
             $msg .= "\n";
         }
         $msg .= ' - DynamicMap: ' . $this->Translate('no simple method to check avail');
 
+        // GetDistanceMatrix
+        $url = 'https://www.google.com/maps/embed/v1/directions?key=' . $api_key;
+        $map['origin'] = 'Rheinallee 1, 53173 Bonn, DE';
+        $map['destination'] = 'Barbarossaplatz 1, 50674 Köln, DE';
+        $url = $this->GetDistanceMatrix(json_encode($map));
+        $r = $this->do_HttpRequest($url, $s);
+        $this->SendDebug(__FUNCTION__, 'result=' . $s, 0);
+        if ($msg != '') {
+            $msg .= "\n";
+        }
+        $msg .= ' - DistanceMatrix: ' . ($r ? 'ok' : $s);
         echo $msg;
     }
 
-    private function check_url($url)
+    private function do_HttpRequest($url, &$result)
     {
         $this->SendDebug(__FUNCTION__, 'http-get: url=' . $url, 0);
         $time_start = microtime(true);
@@ -104,29 +150,29 @@ class GoogleMaps extends IPSModule
         $duration = round(microtime(true) - $time_start, 2);
         $this->SendDebug(__FUNCTION__, ' => httpcode=' . $httpcode . ', duration=' . $duration . 's', 0);
 
+		$result = $cdata;
         $statuscode = 0;
         $err = '';
         if ($httpcode != 200) {
             if ($httpcode == 403) {
                 $err = "got http-code $httpcode (forbidden)";
-                $statuscode = 204;
+                $statuscode = StatusCode_AccessForbidden;
             } elseif ($httpcode >= 500 && $httpcode <= 599) {
-                $statuscode = 202;
+                $statuscode = StatusCode_ServerError;
                 $err = "got http-code $httpcode (server error)";
             } else {
                 $err = "got http-code $httpcode";
-                $statuscode = 203;
+                $statuscode = StatusCode_HttpError;
             }
-        } else {
-            $cdata = '';
-        }
+		}
 
         if ($statuscode) {
             $this->SendDebug(__FUNCTION__, ' => statuscode=' . $statuscode . ', err=' . $err, 0);
             $this->SetStatus($statuscode);
+			return false;
         }
 
-        return $cdata;
+        return true;
     }
 
     private function getMyLocation()
@@ -311,8 +357,8 @@ class GoogleMaps extends IPSModule
 
         $map = json_decode($data, true);
         $center = isset($map['center']) ? $map['center'] : json_decode($this->getMyLocation(), true);
-        $lat = (float) $this->format_float($center['lat'], 6);
-        $lng = (float) $this->format_float($center['lng'], 6);
+        $lat = $this->format_float($center['lat'], 6);
+        $lng = $this->format_float($center['lng'], 6);
         $url .= '&center=' . rawurlencode($lat . ',' . $lng);
 
         foreach (['zoom', 'size', 'scale', 'maptype'] as $key) {
@@ -352,8 +398,8 @@ class GoogleMaps extends IPSModule
                 if (isset($marker['points'])) {
                     $points = $marker['points'];
                     foreach ($points as $point) {
-                        $lat = (float) $this->format_float($point['lat'], 6);
-                        $lng = (float) $this->format_float($point['lng'], 6);
+                        $lat = $this->format_float($point['lat'], 6);
+                        $lng = $this->format_float($point['lng'], 6);
                         if ($s != '') {
                             $s .= '|';
                         }
@@ -379,8 +425,8 @@ class GoogleMaps extends IPSModule
                 if (isset($path['points'])) {
                     $points = $path['points'];
                     foreach ($points as $point) {
-                        $lat = (float) $this->format_float($point['lat'], 6);
-                        $lng = (float) $this->format_float($point['lng'], 6);
+                        $lat = $this->format_float($point['lat'], 6);
+                        $lng = $this->format_float($point['lng'], 6);
                         if ($s != '') {
                             $s .= '|';
                         }
@@ -419,8 +465,8 @@ class GoogleMaps extends IPSModule
         if ($basic_mode == 'directions') {
             if (isset($map['origin'])) {
                 if (isset($map['origin']['lat']) && isset($map['origin']['lng'])) {
-                    $lat = (float) $this->format_float($map['origin']['lat'], 6);
-                    $lng = (float) $this->format_float($map['origin']['lng'], 6);
+                    $lat = $this->format_float($map['origin']['lat'], 6);
+                    $lng = $this->format_float($map['origin']['lng'], 6);
                     $origin = $lat . ',' . $lng;
                 } else {
                     $origin = $map['origin'];
@@ -430,8 +476,8 @@ class GoogleMaps extends IPSModule
 
             if (isset($map['destination'])) {
                 if (isset($map['destination']['lat']) && isset($map['destination']['lng'])) {
-                    $lat = (float) $this->format_float($map['destination']['lat'], 6);
-                    $lng = (float) $this->format_float($map['destination']['lng'], 6);
+                    $lat = $this->format_float($map['destination']['lat'], 6);
+                    $lng = $this->format_float($map['destination']['lng'], 6);
                     $destination = $lat . ',' . $lng;
                 } else {
                     $destination = $map['destination'];
@@ -462,5 +508,108 @@ class GoogleMaps extends IPSModule
         }
 
         return $url;
+    }
+
+    public function GetDistanceMatrix(string $data)
+    {
+        $api_key = $this->ReadPropertyString('api_key');
+        if ($api_key == '') {
+            $this->LogMessage(__FUNCTION__ . ': a valid API-Key is requіred', KL_WARNING);
+            return '';
+        }
+
+        $map = json_decode($data, true);
+
+        $url = 'https://maps.googleapis.com/maps/api/distancematrix/json?key=' . $api_key;
+
+		// language: en, de, ...
+		$url .= '&language=de';
+
+		// units: imperial, metric
+		$url .= '&units=metric';
+
+		if (isset($map['origin'])) {
+			if (isset($map['origin']['lat']) && isset($map['origin']['lng'])) {
+				$lat = $this->format_float($map['origin']['lat'], 6);
+				$lng = $this->format_float($map['origin']['lng'], 6);
+				$origin = $lat . ',' . $lng;
+			} else {
+				$origin = $map['origin'];
+			}
+			$url .= '&origins=' . rawurlencode($origin);
+		}
+
+		if (isset($map['destination'])) {
+			if (isset($map['destination']['lat']) && isset($map['destination']['lng'])) {
+				$lat = $this->format_float($map['destination']['lat'], 6);
+				$lng = $this->format_float($map['destination']['lng'], 6);
+				$destination = $lat . ',' . $lng;
+			} else {
+				$destination = $map['destination'];
+			}
+			$url .= '&destinations=' . rawurlencode($destination);
+		}
+
+		// avoid : tolls, ferries, highways
+		$avoid = isset($map['avoid']) ? $map['avoid'] : '';
+		if ($avoid != '') {
+			$s = '';
+			foreach ($avoid as $a) {
+				if ($s != '') {
+					$s .= '|';
+				}
+				$s .= $a;
+			}
+			$url .= '&avoid=' . rawurlencode($s);
+		}
+
+		// mode : driving, walking, bicycling, transit, flying
+		if (isset($map['mode'])) {
+			$url .= '&mode=' . rawurlencode($map['mode']);
+		}
+
+		// arrival_time: unix-timestamp UTC
+		if (isset($map['arrival_time'])) {
+			$url .= '&arrival_time=' . rawurlencode($map['arrival_time']);
+		}
+
+		// departure_time: unix-timestamp UTC
+		if (isset($map['departure_time'])) {
+			$url .= '&departure_time=' . rawurlencode($map['departure_time']);
+		}
+
+		// traffic_model: best_guess, pessimistic, optimistic
+		if (isset($map['traffic_model'])) {
+			$url .= '&traffic_model=' . rawurlencode($map['traffic_model']);
+		}
+
+		// transit_mode: bus, subway, train, tram, rail
+		$transit_mode = isset($map['transit_mode']) ? $map['transit_mode'] : '';
+		if ($transit_mode != '') {
+			$s = '';
+			foreach ($transit_mode as $a) {
+				if ($s != '') {
+					$s .= '|';
+				}
+				$s .= $a;
+			}
+			$url .= '&transit_mode=' . rawurlencode($s);
+		}
+
+		// transit_routing_preference: less_walking, fewer_transfers 
+		$transit_routing_preference = isset($map['transit_routing_preference']) ? $map['transit_routing_preference'] : '';
+		if ($transit_routing_preference != '') {
+			$s = '';
+			foreach ($transit_routing_preference as $a) {
+				if ($s != '') {
+					$s .= '|';
+				}
+				$s .= $a;
+			}
+			$url .= '&transit_routing_preference=' . rawurlencode($s);
+		}
+
+		$ok = $this->do_HttpRequest($url, $result);
+        return $result;
     }
 }
