@@ -113,6 +113,10 @@ GUIDs
 - Instanzen:
   - GoogleMaps: `{2C639155-4F49-4B9C-BBA5-1C7E62F1CF54}`
 
+Verweise:
+- https://console.cloud.google.com/home/dashboard, https://console.cloud.google.com/apis/dashboard
+- https://developers.google.com/maps/documentation
+
 GoogleMaps
 
 Grundsätzlich ist nach den letzten Änderungen laut Dokumentation von Google ein Zugriff auf Karten von GoogleMaps nur noch mit einen API-Key möglich. Bei den statischen Maps scheint der Zugriff aber noch ohen API-Key zu funktionieren.
