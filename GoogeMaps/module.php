@@ -27,12 +27,12 @@ if (@constant('IPS_BASE') == null) {
 
 if (!defined('StatusCode_inactive')) {
     define('StatusCode_creating', 101);
-	define('StatusCode_active', 102);
-	define('StatusCode_inactive', 104);
-	define('StatusCode_InvalidConfig', 201);
-	define('StatusCode_ServerError', 202);
-	define('StatusCode_HttpError', 203);
-	define('StatusCode_AccessForbidden', 204);
+    define('StatusCode_active', 102);
+    define('StatusCode_inactive', 104);
+    define('StatusCode_InvalidConfig', 201);
+    define('StatusCode_ServerError', 202);
+    define('StatusCode_HttpError', 203);
+    define('StatusCode_AccessForbidden', 204);
 }
 
 class GoogleMaps extends IPSModule
@@ -150,7 +150,7 @@ class GoogleMaps extends IPSModule
         $duration = round(microtime(true) - $time_start, 2);
         $this->SendDebug(__FUNCTION__, ' => httpcode=' . $httpcode . ', duration=' . $duration . 's', 0);
 
-		$result = $cdata;
+        $result = $cdata;
         $statuscode = 0;
         $err = '';
         if ($httpcode != 200) {
@@ -164,12 +164,12 @@ class GoogleMaps extends IPSModule
                 $err = "got http-code $httpcode";
                 $statuscode = StatusCode_HttpError;
             }
-		}
+        }
 
         if ($statuscode) {
             $this->SendDebug(__FUNCTION__, ' => statuscode=' . $statuscode . ', err=' . $err, 0);
             $this->SetStatus($statuscode);
-			return false;
+            return false;
         }
 
         return true;
@@ -522,94 +522,94 @@ class GoogleMaps extends IPSModule
 
         $url = 'https://maps.googleapis.com/maps/api/distancematrix/json?key=' . $api_key;
 
-		// language: en, de, ...
-		$url .= '&language=de';
+        // language: en, de, ...
+        $url .= '&language=de';
 
-		// units: imperial, metric
-		$url .= '&units=metric';
+        // units: imperial, metric
+        $url .= '&units=metric';
 
-		if (isset($map['origin'])) {
-			if (isset($map['origin']['lat']) && isset($map['origin']['lng'])) {
-				$lat = $this->format_float($map['origin']['lat'], 6);
-				$lng = $this->format_float($map['origin']['lng'], 6);
-				$origin = $lat . ',' . $lng;
-			} else {
-				$origin = $map['origin'];
-			}
-			$url .= '&origins=' . rawurlencode($origin);
-		}
+        if (isset($map['origin'])) {
+            if (isset($map['origin']['lat']) && isset($map['origin']['lng'])) {
+                $lat = $this->format_float($map['origin']['lat'], 6);
+                $lng = $this->format_float($map['origin']['lng'], 6);
+                $origin = $lat . ',' . $lng;
+            } else {
+                $origin = $map['origin'];
+            }
+            $url .= '&origins=' . rawurlencode($origin);
+        }
 
-		if (isset($map['destination'])) {
-			if (isset($map['destination']['lat']) && isset($map['destination']['lng'])) {
-				$lat = $this->format_float($map['destination']['lat'], 6);
-				$lng = $this->format_float($map['destination']['lng'], 6);
-				$destination = $lat . ',' . $lng;
-			} else {
-				$destination = $map['destination'];
-			}
-			$url .= '&destinations=' . rawurlencode($destination);
-		}
+        if (isset($map['destination'])) {
+            if (isset($map['destination']['lat']) && isset($map['destination']['lng'])) {
+                $lat = $this->format_float($map['destination']['lat'], 6);
+                $lng = $this->format_float($map['destination']['lng'], 6);
+                $destination = $lat . ',' . $lng;
+            } else {
+                $destination = $map['destination'];
+            }
+            $url .= '&destinations=' . rawurlencode($destination);
+        }
 
-		// avoid : tolls, ferries, highways
-		$avoid = isset($map['avoid']) ? $map['avoid'] : '';
-		if ($avoid != '') {
-			$s = '';
-			foreach ($avoid as $a) {
-				if ($s != '') {
-					$s .= '|';
-				}
-				$s .= $a;
-			}
-			$url .= '&avoid=' . rawurlencode($s);
-		}
+        // avoid : tolls, ferries, highways
+        $avoid = isset($map['avoid']) ? $map['avoid'] : '';
+        if ($avoid != '') {
+            $s = '';
+            foreach ($avoid as $a) {
+                if ($s != '') {
+                    $s .= '|';
+                }
+                $s .= $a;
+            }
+            $url .= '&avoid=' . rawurlencode($s);
+        }
 
-		// mode : driving, walking, bicycling, transit, flying
-		if (isset($map['mode'])) {
-			$url .= '&mode=' . rawurlencode($map['mode']);
-		}
+        // mode : driving, walking, bicycling, transit, flying
+        if (isset($map['mode'])) {
+            $url .= '&mode=' . rawurlencode($map['mode']);
+        }
 
-		// arrival_time: unix-timestamp UTC
-		if (isset($map['arrival_time'])) {
-			$url .= '&arrival_time=' . rawurlencode($map['arrival_time']);
-		}
+        // arrival_time: unix-timestamp UTC
+        if (isset($map['arrival_time'])) {
+            $url .= '&arrival_time=' . rawurlencode($map['arrival_time']);
+        }
 
-		// departure_time: unix-timestamp UTC
-		if (isset($map['departure_time'])) {
-			$url .= '&departure_time=' . rawurlencode($map['departure_time']);
-		}
+        // departure_time: unix-timestamp UTC
+        if (isset($map['departure_time'])) {
+            $url .= '&departure_time=' . rawurlencode($map['departure_time']);
+        }
 
-		// traffic_model: best_guess, pessimistic, optimistic
-		if (isset($map['traffic_model'])) {
-			$url .= '&traffic_model=' . rawurlencode($map['traffic_model']);
-		}
+        // traffic_model: best_guess, pessimistic, optimistic
+        if (isset($map['traffic_model'])) {
+            $url .= '&traffic_model=' . rawurlencode($map['traffic_model']);
+        }
 
-		// transit_mode: bus, subway, train, tram, rail
-		$transit_mode = isset($map['transit_mode']) ? $map['transit_mode'] : '';
-		if ($transit_mode != '') {
-			$s = '';
-			foreach ($transit_mode as $a) {
-				if ($s != '') {
-					$s .= '|';
-				}
-				$s .= $a;
-			}
-			$url .= '&transit_mode=' . rawurlencode($s);
-		}
+        // transit_mode: bus, subway, train, tram, rail
+        $transit_mode = isset($map['transit_mode']) ? $map['transit_mode'] : '';
+        if ($transit_mode != '') {
+            $s = '';
+            foreach ($transit_mode as $a) {
+                if ($s != '') {
+                    $s .= '|';
+                }
+                $s .= $a;
+            }
+            $url .= '&transit_mode=' . rawurlencode($s);
+        }
 
-		// transit_routing_preference: less_walking, fewer_transfers 
-		$transit_routing_preference = isset($map['transit_routing_preference']) ? $map['transit_routing_preference'] : '';
-		if ($transit_routing_preference != '') {
-			$s = '';
-			foreach ($transit_routing_preference as $a) {
-				if ($s != '') {
-					$s .= '|';
-				}
-				$s .= $a;
-			}
-			$url .= '&transit_routing_preference=' . rawurlencode($s);
-		}
+        // transit_routing_preference: less_walking, fewer_transfers
+        $transit_routing_preference = isset($map['transit_routing_preference']) ? $map['transit_routing_preference'] : '';
+        if ($transit_routing_preference != '') {
+            $s = '';
+            foreach ($transit_routing_preference as $a) {
+                if ($s != '') {
+                    $s .= '|';
+                }
+                $s .= $a;
+            }
+            $url .= '&transit_routing_preference=' . rawurlencode($s);
+        }
 
-		$ok = $this->do_HttpRequest($url, $result);
+        $ok = $this->do_HttpRequest($url, $result);
         return $result;
     }
 }
