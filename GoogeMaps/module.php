@@ -25,14 +25,11 @@ if (@constant('IPS_BASE') == null) {
     define('KL_CUSTOM', IPS_LOGMESSAGE + 7);			// User Message
 }
 
-if (!defined('StatusCode_inactive')) {
-    define('StatusCode_creating', 101);
-    define('StatusCode_active', 102);
-    define('StatusCode_inactive', 104);
-    define('StatusCode_InvalidConfig', 201);
-    define('StatusCode_ServerError', 202);
-    define('StatusCode_HttpError', 203);
-    define('StatusCode_AccessForbidden', 204);
+if (!defined('IS_INVALIDCONFIG')) {
+    define('IS_INVALIDCONFIG', 201);
+    define('IS_SERVERERROR', 202);
+    define('IS_HTTPERROR', 203);
+    define('IS_FORBIDDEN', 204);
 }
 
 class GoogleMaps extends IPSModule
@@ -52,7 +49,7 @@ class GoogleMaps extends IPSModule
 
         $api_key = $this->ReadPropertyString('api_key');
 
-        $this->SetStatus($api_key == '' ? StatusCode_inactive : StatusCode_active);
+        $this->SetStatus($api_key == '' ? IS_INACTIVE : IS_ACTIVE);
         $this->SetStatus(102);
     }
 
@@ -71,13 +68,16 @@ class GoogleMaps extends IPSModule
                         ];
 
         $formStatus = [];
-        $formStatus[] = ['code' => StatusCode_creating, 'icon' => 'inactive', 'caption' => 'Instance getting created'];
-        $formStatus[] = ['code' => StatusCode_active, 'icon' => 'active', 'caption' => 'Instance is active'];
-        $formStatus[] = ['code' => StatusCode_inactive, 'icon' => 'inactive', 'caption' => 'Instance is inactive'];
-        $formStatus[] = ['code' => StatusCode_InvalidConfig, 'icon' => 'error', 'caption' => 'Instance is inactive (invalid configuration)'];
-        $formStatus[] = ['code' => StatusCode_ServerError, 'icon' => 'error', 'caption' => 'Instance is inactive (server error)'];
-        $formStatus[] = ['code' => StatusCode_HttpError, 'icon' => 'error', 'caption' => 'Instance is inactive (http error)'];
-        $formStatus[] = ['code' => StatusCode_AccessForbidden, 'icon' => 'error', 'caption' => 'Instance is inactive (access forbidden)'];
+        $formStatus[] = ['code' => IS_CREATING, 'icon' => 'inactive', 'caption' => 'Instance getting created'];
+        $formStatus[] = ['code' => IS_ACTIVE, 'icon' => 'active', 'caption' => 'Instance is active'];
+		$formStatus[] = ['code' => IS_DELETING, 'icon' => 'inactive', 'caption' => 'Instance is deleted'];
+        $formStatus[] = ['code' => IS_INACTIVE, 'icon' => 'inactive', 'caption' => 'Instance is inactive'];
+		$formStatus[] = ['code' => IS_NOTCREATED, 'icon' => 'inactive', 'caption' => 'Instance is not created'];
+
+        $formStatus[] = ['code' => IS_INVALIDCONFIG, 'icon' => 'error', 'caption' => 'Instance is inactive (invalid configuration)'];
+        $formStatus[] = ['code' => IS_SERVERERROR, 'icon' => 'error', 'caption' => 'Instance is inactive (server error)'];
+        $formStatus[] = ['code' => IS_HTTPERROR, 'icon' => 'error', 'caption' => 'Instance is inactive (http error)'];
+        $formStatus[] = ['code' => IS_FORBIDDEN, 'icon' => 'error', 'caption' => 'Instance is inactive (access forbidden)'];
         return json_encode(['elements' => $formElements, 'actions' => $formActions, 'status' => $formStatus]);
     }
 
@@ -156,13 +156,13 @@ class GoogleMaps extends IPSModule
         if ($httpcode != 200) {
             if ($httpcode == 403) {
                 $err = "got http-code $httpcode (forbidden)";
-                $statuscode = StatusCode_AccessForbidden;
+                $statuscode = IS_FORBIDDEN;
             } elseif ($httpcode >= 500 && $httpcode <= 599) {
-                $statuscode = StatusCode_ServerError;
+                $statuscode = IS_SERVERERROR;
                 $err = "got http-code $httpcode (server error)";
             } else {
                 $err = "got http-code $httpcode";
-                $statuscode = StatusCode_HttpError;
+                $statuscode = IS_HTTPERROR;
             }
         }
 
