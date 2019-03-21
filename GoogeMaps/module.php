@@ -582,7 +582,7 @@ class GoogleMaps extends IPSModule
             $url .= '&transit_routing_preference=' . rawurlencode($s);
         }
 
-		$ok = $this->do_HttpRequest($url, $s);
+        $ok = $this->do_HttpRequest($url, $s);
         return $s;
     }
 }
