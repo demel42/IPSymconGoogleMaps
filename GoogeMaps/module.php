@@ -2,36 +2,6 @@
 
 require_once __DIR__ . '/../libs/common.php';  // globale Funktionen
 
-if (@constant('IPS_BASE') == null) {
-    // --- BASE MESSAGE
-    define('IPS_BASE', 10000);							// Base Message
-    define('IPS_KERNELSHUTDOWN', IPS_BASE + 1);			// Pre Shutdown Message, Runlevel UNINIT Follows
-    define('IPS_KERNELSTARTED', IPS_BASE + 2);			// Post Ready Message
-    // --- KERNEL
-    define('IPS_KERNELMESSAGE', IPS_BASE + 100);		// Kernel Message
-    define('KR_CREATE', IPS_KERNELMESSAGE + 1);			// Kernel is beeing created
-    define('KR_INIT', IPS_KERNELMESSAGE + 2);			// Kernel Components are beeing initialised, Modules loaded, Settings read
-    define('KR_READY', IPS_KERNELMESSAGE + 3);			// Kernel is ready and running
-    define('KR_UNINIT', IPS_KERNELMESSAGE + 4);			// Got Shutdown Message, unloading all stuff
-    define('KR_SHUTDOWN', IPS_KERNELMESSAGE + 5);		// Uninit Complete, Destroying Kernel Inteface
-    // --- KERNEL LOGMESSAGE
-    define('IPS_LOGMESSAGE', IPS_BASE + 200);			// Logmessage Message
-    define('KL_MESSAGE', IPS_LOGMESSAGE + 1);			// Normal Message
-    define('KL_SUCCESS', IPS_LOGMESSAGE + 2);			// Success Message
-    define('KL_NOTIFY', IPS_LOGMESSAGE + 3);			// Notiy about Changes
-    define('KL_WARNING', IPS_LOGMESSAGE + 4);			// Warnings
-    define('KL_ERROR', IPS_LOGMESSAGE + 5);				// Error Message
-    define('KL_DEBUG', IPS_LOGMESSAGE + 6);				// Debug Informations + Script Results
-    define('KL_CUSTOM', IPS_LOGMESSAGE + 7);			// User Message
-}
-
-if (!defined('IS_INVALIDCONFIG')) {
-    define('IS_INVALIDCONFIG', 201);
-    define('IS_SERVERERROR', 202);
-    define('IS_HTTPERROR', 203);
-    define('IS_FORBIDDEN', 204);
-}
-
 class GoogleMaps extends IPSModule
 {
     use GoogleMapsCommon;
@@ -50,7 +20,6 @@ class GoogleMaps extends IPSModule
         $api_key = $this->ReadPropertyString('api_key');
 
         $this->SetStatus($api_key == '' ? IS_INACTIVE : IS_ACTIVE);
-        $this->SetStatus(102);
     }
 
     public function GetConfigurationForm()
@@ -91,7 +60,7 @@ class GoogleMaps extends IPSModule
         $map['size'] = '500x500';
         $url = $this->GenerateStaticMap(json_encode($map));
         $r = $this->do_HttpRequest($url, $s);
-        $this->SendDebug(__FUNCTION__, 'result=' . $s, 0);
+        $this->SendDebug(__FUNCTION__, 'GenerateStaticMap():: result=' . $s, 0);
         if ($msg != '') {
             $msg .= "\n";
         }
@@ -103,7 +72,7 @@ class GoogleMaps extends IPSModule
         $map['destination'] = 'Barbarossaplatz 1, 50674 Köln, DE';
         $url = $this->GenerateEmbededMap(json_encode($map));
         $r = $this->do_HttpRequest($url, $s);
-        $this->SendDebug(__FUNCTION__, 'result=' . $s, 0);
+        $this->SendDebug(__FUNCTION__, 'GenerateEmbededMap(): result=' . $s, 0);
         if ($msg != '') {
             $msg .= "\n";
         }
@@ -112,7 +81,7 @@ class GoogleMaps extends IPSModule
         // GenerateDynamicMap
         $url = 'https://maps.googleapis.com/maps/api/js?key=' . $api_key;
         $r = $this->do_HttpRequest($url, $s);
-        $this->SendDebug(__FUNCTION__, 'result=' . $s, 0);
+        $this->SendDebug(__FUNCTION__, 'GenerateDynamicMap(): result=' . $s, 0);
         if ($msg != '') {
             $msg .= "\n";
         }
@@ -122,13 +91,12 @@ class GoogleMaps extends IPSModule
         $url = 'https://www.google.com/maps/embed/v1/directions?key=' . $api_key;
         $map['origin'] = 'Rheinallee 1, 53173 Bonn, DE';
         $map['destination'] = 'Barbarossaplatz 1, 50674 Köln, DE';
-        $url = $this->GetDistanceMatrix(json_encode($map));
-        $r = $this->do_HttpRequest($url, $s);
-        $this->SendDebug(__FUNCTION__, 'result=' . $s, 0);
+        $s = $this->GetDistanceMatrix(json_encode($map));
+        $this->SendDebug(__FUNCTION__, 'GetDistanceMatrix(): result=' . $s, 0);
         if ($msg != '') {
             $msg .= "\n";
         }
-        $msg .= ' - DistanceMatrix: ' . ($r ? 'ok' : $s);
+        $msg .= ' - DistanceMatrix: ' . ($s != '' ? 'ok' : 'fail');
         echo $msg;
     }
 
@@ -614,7 +582,7 @@ class GoogleMaps extends IPSModule
             $url .= '&transit_routing_preference=' . rawurlencode($s);
         }
 
-        $ok = $this->do_HttpRequest($url, $result);
-        return $result;
+		$ok = $this->do_HttpRequest($url, $s);
+        return $s;
     }
 }

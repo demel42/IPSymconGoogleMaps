@@ -1,7 +1,7 @@
 # IPSymconGoogleMaps
 
-[![IPS-Version](https://img.shields.io/badge/Symcon_Version-4.4+-red.svg)](https://www.symcon.de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/)
-![Module-Version](https://img.shields.io/badge/Modul_Version-1.5.1-blue.svg)
+[![IPS-Version](https://img.shields.io/badge/Symcon_Version-5.0+-red.svg)](https://www.symcon.de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/)
+![Module-Version](https://img.shields.io/badge/Modul_Version-1.6-blue.svg)
 ![Code](https://img.shields.io/badge/Code-PHP-blue.svg)
 [![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-green.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 [![StyleCI](https://github.styleci.io/repos/138596707/shield?branch=master)](https://github.styleci.io/repos/138596707)
@@ -37,7 +37,8 @@ das sind Karten mit Sonderfunktion, zur Zeit wird nur __directions__ (Wegekarte)
 
 ## 2. Voraussetzungen
 
- - IP-Symcon ab Version 4.4
+ - IP-Symcon ab Version 5<br>
+   Version 4.4 mit Branch _ips_4.4_ (nur noch Fehlerkorrekturen)
  - API von GooleMaps (siehe [hier|(#7-GoogleMaps)]
 
 ## 3. Installation
@@ -135,8 +136,9 @@ Für die Karten muss man die benötigten API's (siehe unten) aktivieren und ggfs
 
 ## 7. Versions-Historie
 
-- 1.5.1 @ 21.03.2019 17:04<br>
-  - Abspaltung von Branch _ips_4.4_
+- 1.6 @ 21.03.2019 17:04<br>
+  - Anpassungen IPS 5, Abspaltung von Branch _ips_4.4_
+  - Korrektur: GetDistanceMatrix() liefert als einzige Funktion die Ergebnisse, nicht die URL zurück, daher klappte der Test-Button nicht mehr
 
 - 1.5 @ 23.01.2019 18:18<br>
   - curl_errno() abfragen
