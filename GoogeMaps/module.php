@@ -124,7 +124,7 @@ class GoogleMaps extends IPSModule
         $statuscode = 0;
         $err = '';
         if ($cerrno) {
-            $statuscode = IS_HTTPERROR;
+            $statuscode = IS_SERVERERROR;
             $err = 'got curl-errno ' . $cerrno . ' (' . $cerror . ')';
         } elseif ($httpcode != 200) {
             if ($httpcode == 403) {
