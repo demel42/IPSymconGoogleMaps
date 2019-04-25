@@ -39,7 +39,7 @@ das sind Karten mit Sonderfunktion, zur Zeit wird nur __directions__ (Wegekarte)
 
  - IP-Symcon ab Version 5<br>
    Version 4.4 mit Branch _ips_4.4_ (nur noch Fehlerkorrekturen)
- - API von GooleMaps (siehe [hier|(#7-GoogleMaps)]
+ - API von GooleMaps (siehe [Anhang/GoogleMaps](#6-anhang))
 
 ## 3. Installation
 
