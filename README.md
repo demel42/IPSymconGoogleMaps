@@ -1,7 +1,7 @@
 # IPSymconGoogleMaps
 
 [![IPS-Version](https://img.shields.io/badge/Symcon_Version-5.0+-red.svg)](https://www.symcon.de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/)
-![Module-Version](https://img.shields.io/badge/Modul_Version-1.8-blue.svg)
+![Module-Version](https://img.shields.io/badge/Modul_Version-1.9-blue.svg)
 ![Code](https://img.shields.io/badge/Code-PHP-blue.svg)
 [![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-green.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 [![StyleCI](https://github.styleci.io/repos/138596707/shield?branch=master)](https://github.styleci.io/repos/138596707)
@@ -135,6 +135,9 @@ Für die Karten muss man die benötigten API's (siehe unten) aktivieren und ggfs
 ![API-Limitations](docs/API-Limitations.png?raw=true "Beschränkungen")
 
 ## 7. Versions-Historie
+
+- 1.9 @ 25.04.2019 15:52<br>
+  - Schreibfehler korrigiert (Goole -> Google)
 
 - 1.8 @ 05.04.2019 11:55<br>
   - Fix zu 1.6
