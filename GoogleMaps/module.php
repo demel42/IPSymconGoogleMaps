@@ -29,14 +29,14 @@ class GoogleMaps extends IPSModule
 
         $formActions = [];
         $formActions[] = ['type' => 'Button', 'label' => 'Verify Configuration', 'onClick' => 'GoogleMaps_VerifyConfiguration($id);'];
-		if (IPS_GetKernelVersion() < 5.2) {
-        $formActions[] = ['type' => 'Label', 'label' => '____________________________________________________________________________________________________'];
-        $formActions[] = [
+        if (IPS_GetKernelVersion() < 5.2) {
+            $formActions[] = ['type' => 'Label', 'label' => '____________________________________________________________________________________________________'];
+            $formActions[] = [
                             'type'    => 'Button',
                             'caption' => 'Module description',
                             'onClick' => 'echo "https://github.com/demel42/IPSymconGoogleMaps/blob/master/README.md";'
                         ];
-		}
+        }
 
         $formStatus = [];
         $formStatus[] = ['code' => IS_CREATING, 'icon' => 'inactive', 'caption' => 'Instance getting created'];
