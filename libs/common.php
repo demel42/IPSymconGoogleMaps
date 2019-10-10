@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 if (!defined('IS_INVALIDCONFIG')) {
     define('IS_INVALIDCONFIG', IS_EBASE + 1);
     define('IS_SERVERERROR', IS_EBASE + 2);

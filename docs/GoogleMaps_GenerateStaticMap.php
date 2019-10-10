@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 $points = [
     ['lat' => 51.56094, 'lng' => 7.1583683333333],
     ['lat' => 51.560923333333, 'lng' => 7.1584033333333],
@@ -26,13 +28,13 @@ $map['maptype'] = 'satellite';
 
 $styles = [];
 $styles[] = [
-        'feature'   => 'road.local',
-        'color'     => '0xff00ff',
-    ];
+    'feature'   => 'road.local',
+    'color'     => '0xff00ff',
+];
 $styles[] = [
-        'feature'   => 'poi.park',
-        'color'     => '0x00ff00',
-    ];
+    'feature'   => 'poi.park',
+    'color'     => '0x00ff00',
+];
 $map['styles'] = $styles;
 
 $markers = [];
@@ -41,29 +43,29 @@ $marker_points = [];
 $marker_points[0] = $points[0];
 
 $markers[] = [
-        'color'     => 'green',
-        'label'		   => 'P',
-        'points'    => $marker_points,
-    ];
+    'color'     => 'green',
+    'label'		   => 'P',
+    'points'    => $marker_points,
+];
 
 $marker_points = [];
 $marker_points[0] = $points[1];
 $marker_points[1] = $points[2];
 
 $markers[] = [
-        'color'     => '0x0000ff',
-        'size'      => 'tiny',
-        'points'    => $marker_points,
-    ];
+    'color'     => '0x0000ff',
+    'size'      => 'tiny',
+    'points'    => $marker_points,
+];
 
 $map['markers'] = $markers;
 
 $paths = [];
 $paths[] = [
-        'color'     => '0xff0000ff',       // 0xhhhhhhoo oo=opacity
-        'weight'    => 2,
-        'points'    => $points,
-    ];
+    'color'     => '0xff0000ff',       // 0xhhhhhhoo oo=opacity
+    'weight'    => 2,
+    'points'    => $points,
+];
 
 $map['paths'] = $paths;
 
