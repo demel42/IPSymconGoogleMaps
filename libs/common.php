@@ -110,7 +110,7 @@ trait GoogleMapsCommon
     {
         if (is_numeric((float) $number)) {
             $nk = abs($number - floor($number));
-            $n = strlen(floatval($nk));
+            $n = strlen((string) floatval($nk));
             $d = ($n > 1) ? $n - 2 : 0;
             if ($dec_points == -1 || $dec_points > $d) {
                 $dec_points = $d;

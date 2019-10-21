@@ -224,7 +224,11 @@ class GoogleMaps extends IPSModule
                 foreach ($marker_points as $marker_point) {
                     $lng = (float) $this->format_float($marker_point['lng'], 6);
                     $lat = (float) $this->format_float($marker_point['lat'], 6);
-                    $locs[] = ['lng' => $lng, 'lat' => $lat];
+                    $loc = ['lng' => $lng, 'lat' => $lat];
+                    if (isset($marker_point['marker_options'])) {
+                        $loc['marker_options'] = $marker_point['marker_options'];
+                    }
+                    $locs[] = $loc;
                 }
                 $marker_options = isset($marker['marker_options']) ? $marker['marker_options'] : '';
                 $html .= '

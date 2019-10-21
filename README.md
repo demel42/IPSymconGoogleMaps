@@ -135,7 +135,8 @@ Für die Karten muss man die benötigten API's (siehe unten) aktivieren und ggfs
 
 ## 7. Versions-Historie
 
-- 1.11 @ 10.10.2019 17:27<br>
+- 1.11 @ 21.10.2019 10:21<br>
+  - Fix in GenerateDynamicMap(): Berücksichtigen der 'marker_options' pro 'marker_poit'
   - Anpassungen an IPS 5.2
     - IPS_SetVariableProfileValues(), IPS_SetVariableProfileDigits() nur bei INTEGER, FLOAT
     - Dokumentation-URL in module.json
