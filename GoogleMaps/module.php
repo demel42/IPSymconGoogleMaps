@@ -339,7 +339,7 @@ class GoogleMaps extends IPSModule
 
         foreach (['zoom', 'size', 'scale', 'maptype'] as $key) {
             if (isset($map[$key])) {
-                $url .= '&' . $key . '=' . rawurlencode($map[$key]);
+                $url .= '&' . $key . '=' . rawurlencode((string) $map[$key]);
             }
         }
 
