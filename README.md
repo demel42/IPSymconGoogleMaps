@@ -138,7 +138,6 @@ Für die Karten muss man die benötigten API's (siehe unten) aktivieren und ggfs
 - 1.12 @ 26.10.2019 04:47<br>
   - Fix wegen strict_types=1
 
-  - Umstellung auf strict_types=1
 - 1.11 @ 21.10.2019 10:21<br>
   - Fix in GenerateDynamicMap(): Berücksichtigen der 'marker_options' pro 'marker_poit'
   - Anpassungen an IPS 5.2
