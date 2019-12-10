@@ -129,7 +129,7 @@ trait GoogleMapsCommon
         return $result;
     }
 
-	private function GetFormStatus()
+    private function GetFormStatus()
     {
         $formStatus = [];
         $formStatus[] = ['code' => IS_CREATING, 'icon' => 'inactive', 'caption' => 'Instance getting created'];
@@ -143,7 +143,7 @@ trait GoogleMapsCommon
         $formStatus[] = ['code' => IS_HTTPERROR, 'icon' => 'error', 'caption' => 'Instance is inactive (http error)'];
         $formStatus[] = ['code' => IS_FORBIDDEN, 'icon' => 'error', 'caption' => 'Instance is inactive (access forbidden)'];
 
-		return $formStatus;
+        return $formStatus;
     }
 
     protected function GetStatus()
