@@ -24,11 +24,16 @@ class GoogleMaps extends IPSModule
         $this->SetStatus($api_key == '' ? IS_INACTIVE : IS_ACTIVE);
     }
 
-    public function GetConfigurationForm()
+    protected function GetFormElements()
     {
         $formElements = [];
         $formElements[] = ['type' => 'ValidationTextBox', 'name' => 'api_key', 'caption' => 'API-Key'];
 
+        return $formElements;
+    }
+
+    protected function GetFormActions()
+    {
         $formActions = [];
         $formActions[] = ['type' => 'Button', 'label' => 'Verify Configuration', 'onClick' => 'GoogleMaps_VerifyConfiguration($id);'];
         if (IPS_GetKernelVersion() < 5.2) {
@@ -40,22 +45,33 @@ class GoogleMaps extends IPSModule
             ];
         }
 
-        $formStatus = [];
-        $formStatus[] = ['code' => IS_CREATING, 'icon' => 'inactive', 'caption' => 'Instance getting created'];
-        $formStatus[] = ['code' => IS_ACTIVE, 'icon' => 'active', 'caption' => 'Instance is active'];
-        $formStatus[] = ['code' => IS_DELETING, 'icon' => 'inactive', 'caption' => 'Instance is deleted'];
-        $formStatus[] = ['code' => IS_INACTIVE, 'icon' => 'inactive', 'caption' => 'Instance is inactive'];
-        $formStatus[] = ['code' => IS_NOTCREATED, 'icon' => 'inactive', 'caption' => 'Instance is not created'];
+        return $formActions;
+    }
 
-        $formStatus[] = ['code' => IS_INVALIDCONFIG, 'icon' => 'error', 'caption' => 'Instance is inactive (invalid configuration)'];
-        $formStatus[] = ['code' => IS_SERVERERROR, 'icon' => 'error', 'caption' => 'Instance is inactive (server error)'];
-        $formStatus[] = ['code' => IS_HTTPERROR, 'icon' => 'error', 'caption' => 'Instance is inactive (http error)'];
-        $formStatus[] = ['code' => IS_FORBIDDEN, 'icon' => 'error', 'caption' => 'Instance is inactive (access forbidden)'];
-        return json_encode(['elements' => $formElements, 'actions' => $formActions, 'status' => $formStatus]);
+    public function GetConfigurationForm()
+    {
+        $formElements = $this->GetFormElements();
+        $formActions = $this->GetFormActions();
+        $formStatus = $this->GetFormStatus();
+
+        $form = json_encode(['elements' => $formElements, 'actions' => $formActions, 'status' => $formStatus]);
+        if ($form == '') {
+            $this->SendDebug(__FUNCTION__, 'json_error=' . json_last_error_msg(), 0);
+            $this->SendDebug(__FUNCTION__, '=> formElements=' . print_r($formElements, true), 0);
+            $this->SendDebug(__FUNCTION__, '=> formActions=' . print_r($formActions, true), 0);
+            $this->SendDebug(__FUNCTION__, '=> formStatus=' . print_r($formStatus, true), 0);
+        }
+        return $form;
     }
 
     public function VerifyConfiguration()
     {
+        $this->SendDebug(__FUNCTION__, 'initial: status=' . $this->GetStatusText(), 0);
+        if ($this->GetStatus() > IS_INVALIDCONFIG) {
+            $this->SetStatus(IS_ACTIVE);
+            $this->SendDebug(__FUNCTION__, 'corrected: status=' . $this->GetStatusText(), 0);
+        }
+
         $msg = $this->Translate('Status') . ':';
 
         $api_key = $this->ReadPropertyString('api_key');
@@ -64,7 +80,8 @@ class GoogleMaps extends IPSModule
         $map['size'] = '500x500';
         $url = $this->GenerateStaticMap(json_encode($map));
         $r = $this->do_HttpRequest($url, $s);
-        $this->SendDebug(__FUNCTION__, 'GenerateStaticMap():: result=' . $s, 0);
+        $this->SendDebug(__FUNCTION__, 'GenerateStaticMap(): result=' . $s, 0);
+        $this->SendDebug(__FUNCTION__, 'GenerateStaticMap(): status=' . $this->GetStatusText(), 0);
         if ($msg != '') {
             $msg .= "\n";
         }
@@ -77,6 +94,7 @@ class GoogleMaps extends IPSModule
         $url = $this->GenerateEmbededMap(json_encode($map));
         $r = $this->do_HttpRequest($url, $s);
         $this->SendDebug(__FUNCTION__, 'GenerateEmbededMap(): result=' . $s, 0);
+        $this->SendDebug(__FUNCTION__, 'GenerateEmbededMap(): status=' . $this->GetStatusText(), 0);
         if ($msg != '') {
             $msg .= "\n";
         }
@@ -86,6 +104,7 @@ class GoogleMaps extends IPSModule
         $url = 'https://maps.googleapis.com/maps/api/js?key=' . $api_key;
         $r = $this->do_HttpRequest($url, $s);
         $this->SendDebug(__FUNCTION__, 'GenerateDynamicMap(): result=' . $s, 0);
+        $this->SendDebug(__FUNCTION__, 'GenerateDynamicMap(): status=' . $this->GetStatusText(), 0);
         if ($msg != '') {
             $msg .= "\n";
         }
@@ -97,10 +116,13 @@ class GoogleMaps extends IPSModule
         $map['destination'] = 'Barbarossaplatz 1, 50674 Köln, DE';
         $s = $this->GetDistanceMatrix(json_encode($map));
         $this->SendDebug(__FUNCTION__, 'GetDistanceMatrix(): result=' . $s, 0);
+        $this->SendDebug(__FUNCTION__, 'GetDistanceMatrix(): status=' . $this->GetStatusText(), 0);
         if ($msg != '') {
             $msg .= "\n";
         }
         $msg .= ' - DistanceMatrix: ' . ($s != '' ? 'ok' : 'fail');
+
+        $this->SendDebug(__FUNCTION__, 'final: status = ' . $this->GetStatusText(), 0);
         echo $msg;
     }
 

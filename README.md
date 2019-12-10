@@ -1,7 +1,7 @@
 # IPSymconGoogleMaps
 
 [![IPS-Version](https://img.shields.io/badge/Symcon_Version-5.0+-red.svg)](https://www.symcon.de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/)
-![Module-Version](https://img.shields.io/badge/Modul_Version-1.12-blue.svg)
+![Module-Version](https://img.shields.io/badge/Modul_Version-1.13-blue.svg)
 ![Code](https://img.shields.io/badge/Code-PHP-blue.svg)
 [![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-green.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
@@ -134,6 +134,9 @@ Für die Karten muss man die benötigten API's (siehe unten) aktivieren und ggfs
 ![API-Limitations](docs/API-Limitations.png?raw=true "Beschränkungen")
 
 ## 7. Versions-Historie
+
+- 1.13 @ 10.12.2019 09:10<br>
+  - mit 'Prüfe Konfiguration' wird ggfs. der Modulstatus ('Zugriff verboten' etc) korrigiert
 
 - 1.12 @ 26.10.2019 04:47<br>
   - Fix wegen strict_types=1

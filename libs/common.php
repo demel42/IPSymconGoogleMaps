@@ -59,7 +59,6 @@ trait GoogleMapsCommon
         }
     }
 
-    // Inspired from module SymconTest/HookServe
     private function RegisterHook($WebHook)
     {
         $ids = IPS_GetInstanceListByModuleID('{015A6EB8-D6E5-4B93-B496-0D3F77AE9FE1}');
@@ -83,7 +82,6 @@ trait GoogleMapsCommon
         }
     }
 
-    // Inspired from module SymconTest/HookServe
     private function GetMimeType($extension)
     {
         $lines = file(IPS_GetKernelDirEx() . 'mime.types');
@@ -103,7 +101,16 @@ trait GoogleMapsCommon
 
     private function GetArrayElem($data, $var, $dflt)
     {
-        return isset($data[$var]) ? $data[$var] : $dflt;
+        $ret = $data;
+        $vs = explode('.', $var);
+        foreach ($vs as $v) {
+            if (!isset($ret[$v])) {
+                $ret = $dflt;
+                break;
+            }
+            $ret = $ret[$v];
+        }
+        return $ret;
     }
 
     private function format_float($number, $dec_points = -1)
@@ -120,5 +127,47 @@ trait GoogleMapsCommon
             $result = false;
         }
         return $result;
+    }
+
+	private function GetFormStatus()
+    {
+        $formStatus = [];
+        $formStatus[] = ['code' => IS_CREATING, 'icon' => 'inactive', 'caption' => 'Instance getting created'];
+        $formStatus[] = ['code' => IS_ACTIVE, 'icon' => 'active', 'caption' => 'Instance is active'];
+        $formStatus[] = ['code' => IS_DELETING, 'icon' => 'inactive', 'caption' => 'Instance is deleted'];
+        $formStatus[] = ['code' => IS_INACTIVE, 'icon' => 'inactive', 'caption' => 'Instance is inactive'];
+        $formStatus[] = ['code' => IS_NOTCREATED, 'icon' => 'inactive', 'caption' => 'Instance is not created'];
+
+        $formStatus[] = ['code' => IS_INVALIDCONFIG, 'icon' => 'error', 'caption' => 'Instance is inactive (invalid configuration)'];
+        $formStatus[] = ['code' => IS_SERVERERROR, 'icon' => 'error', 'caption' => 'Instance is inactive (server error)'];
+        $formStatus[] = ['code' => IS_HTTPERROR, 'icon' => 'error', 'caption' => 'Instance is inactive (http error)'];
+        $formStatus[] = ['code' => IS_FORBIDDEN, 'icon' => 'error', 'caption' => 'Instance is inactive (access forbidden)'];
+
+		return $formStatus;
+    }
+
+    protected function GetStatus()
+    {
+        if (IPS_GetKernelVersion() >= 5.1) {
+            return parent::GetStatus();
+        }
+
+        $inst = IPS_GetInstance($this->InstanceID);
+        return $inst['InstanceStatus'];
+    }
+
+    private function GetStatusText()
+    {
+        $txt = false;
+        $status = $this->GetStatus();
+        $formStatus = $this->GetFormStatus();
+        foreach ($formStatus as $item) {
+            if ($item['code'] == $status) {
+                $txt = $item['caption'];
+                break;
+            }
+        }
+
+        return $txt;
     }
 }
