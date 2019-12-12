@@ -336,13 +336,20 @@ class GoogleMaps extends IPSModule
             }
             $request['travelMode'] = $travelMode;
 
+            if (isset($directions['waypoints'])) {
+                $request['waypoints'] = $directions['waypoints'];
+                if (isset($directions['optimizeWaypoints'])) {
+                    $request['optimizeWaypoints'] = $directions['optimizeWaypoints'];
+                }
+            }
+
             $request['provideRouteAlternatives'] = (bool) $this->GetArrayElem($directions, 'provideRouteAlternatives', false);
 
             $request['avoidTolls'] = (bool) $this->GetArrayElem($directions, 'avoidTolls', false);
             $request['avoidFerries'] = (bool) $this->GetArrayElem($directions, 'avoidFerries', false);
             $request['avoidHighways'] = (bool) $this->GetArrayElem($directions, 'avoidHighways', false);
 
-            if (isset($directions['drivingOptions'])) {
+            if ($travelMode == 'DRIVING' && isset($directions['drivingOptions'])) {
                 $o = $directions['drivingOptions'];
                 if (isset($o['departureTime'])) {
                     if (is_numeric($o['departureTime'])) {
@@ -354,7 +361,7 @@ class GoogleMaps extends IPSModule
                 }
                 $request['drivingOptions'] = $o;
             }
-            if (isset($directions['transitOptions'])) {
+            if ($travelMode == 'TRANSIT' && isset($directions['transitOptions'])) {
                 $o = $directions['transitOptions'];
                 if (isset($o['arrivalTime'])) {
                     if (is_numeric($o['arrivalTime'])) {

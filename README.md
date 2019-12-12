@@ -74,7 +74,7 @@ In den Beispielen sind die Strukturen soweit möglich erklärt, Details sind in 
 API-Dokumentation: https://developers.google.com/maps/documentation/javascript/tutorial,
 https://developers.google.com/maps/documentation/javascript/reference/3/
 <br>
-Beispiel: `docs/GoogleMaps_GenerateDynamicMap_WebHook.php` und `docs/GoogleMaps_GenerateDynamicMap_HtmlBox.php`
+Beispiel: `docs/GoogleMaps_GenerateDynamicMap_HtmlBox.php` sowie `docs/GoogleMaps_GenerateDynamicMap_WebHook.php` bzw `docs/GoogleMaps_GenerateDynamicMapDirections_WebHook.php` 
 
 ### statische Karte (Maps Static API)
 
@@ -135,8 +135,8 @@ Für die Karten muss man die benötigten API's (siehe unten) aktivieren und ggfs
 
 ## 7. Versions-Historie
 
-- 1.14 @ 10.12.2019 17:29<br>
-  - GenerateDynamicMap() kann nun auch _DirectionServices_
+- 1.14 @ 12.12.2019 11:45<br>
+  - GenerateDynamicMap() kann nun auch _DirectionServices_ (siehe `docs/GoogleMaps_GenerateDynamicMapDirections_WebHook.php`)
 
 - 1.13 @ 10.12.2019 09:10<br>
   - mit 'Prüfe Konfiguration' wird ggfs. der Modulstatus ('Zugriff verboten' etc) korrigiert
