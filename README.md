@@ -1,7 +1,7 @@
 # IPSymconGoogleMaps
 
 [![IPS-Version](https://img.shields.io/badge/Symcon_Version-5.0+-red.svg)](https://www.symcon.de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/)
-![Module-Version](https://img.shields.io/badge/Modul_Version-1.14-blue.svg)
+![Module-Version](https://img.shields.io/badge/Modul_Version-1.15-blue.svg)
 ![Code](https://img.shields.io/badge/Code-PHP-blue.svg)
 [![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-green.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
@@ -119,7 +119,8 @@ Verweise:
 
 GoogleMaps
 
-Grundsätzlich ist nach den letzten Änderungen laut Dokumentation von Google ein Zugriff auf Karten von GoogleMaps nur noch mit einen API-Key möglich. Bei den statischen Maps scheint der Zugriff aber noch ohen API-Key zu funktionieren.
+Grundsätzlich ist nach den letzten Änderungen laut Dokumentation von Google ein Zugriff auf Karten von GoogleMaps nur noch mit einen API-Key möglich.
+Bei den statischen Maps scheint der Zugriff aber noch ohen API-Key zu funktionieren.
 Dieser API-Key setzt eine Registrierung bei Google voraus und eine Angabe eine Zahlungsmittels. Es gibt nach meinem Verständnis ein monatliches Guthaben von 200$, das nach der jetzigen Preisliste für 28.500 Aufrufe von dynamischen Karten/Monat bzw. 100.000 statischen Karte bzw. 40.000 Routen ausreicht.
 siehe https://cloud.google.com/maps-platform/pricing/?hl=de
 
@@ -135,16 +136,20 @@ Für die Karten muss man die benötigten API's (siehe unten) aktivieren und ggfs
 
 ## 7. Versions-Historie
 
-- 1.14 @ 12.12.2019 11:45<br>
+- 1.15 @ 19.12.2019 14:09
+  - Anpassungen an IPS 5.3
+    - Formular-Elemente: 'label' in 'caption' geändert
+
+- 1.14 @ 12.12.2019 11:45
   - GenerateDynamicMap() kann nun auch _DirectionServices_ (siehe `docs/GoogleMaps_GenerateDynamicMapDirections_WebHook.php`)
 
-- 1.13 @ 10.12.2019 09:10<br>
+- 1.13 @ 10.12.2019 09:10
   - mit 'Prüfe Konfiguration' wird ggfs. der Modulstatus ('Zugriff verboten' etc) korrigiert
 
-- 1.12 @ 26.10.2019 04:47<br>
+- 1.12 @ 26.10.2019 04:47
   - Fix wegen strict_types=1
 
-- 1.11 @ 21.10.2019 10:21<br>
+- 1.11 @ 21.10.2019 10:21
   - Fix in GenerateDynamicMap(): Berücksichtigen der 'marker_options' pro 'marker_poit'
   - Anpassungen an IPS 5.2
     - IPS_SetVariableProfileValues(), IPS_SetVariableProfileDigits() nur bei INTEGER, FLOAT
@@ -152,36 +157,36 @@ Für die Karten muss man die benötigten API's (siehe unten) aktivieren und ggfs
   - Umstellung auf strict_types=1
   - Umstellung von StyleCI auf php-cs-fixer
 
-- 1.10 @ 09.08.2019 14:32<br>
+- 1.10 @ 09.08.2019 14:32
   - Schreibfehler korrigiert
 
-- 1.9 @ 25.04.2019 15:52<br>
+- 1.9 @ 25.04.2019 15:52
   - Schreibfehler korrigiert (Goole -> Google)
 
-- 1.8 @ 05.04.2019 11:55<br>
+- 1.8 @ 05.04.2019 11:55
   - Fix zu 1.6
 
-- 1.7 @ 29.03.2019 16:19<br>
+- 1.7 @ 29.03.2019 16:19
   - SetValue() abgesichert
 
-- 1.6 @ 21.03.2019 17:04<br>
+- 1.6 @ 21.03.2019 17:04
   - Anpassungen IPS 5, Abspaltung von Branch _ips_4.4_
   - Korrektur: GetDistanceMatrix() liefert als einzige Funktion die Ergebnisse, nicht die URL zurück, daher klappte der Test-Button nicht mehr
 
-- 1.5 @ 23.01.2019 18:18<br>
+- 1.5 @ 23.01.2019 18:18
   - curl_errno() abfragen
 
-- 1.4 @ 04.11.2018 17:50<br>
+- 1.4 @ 04.11.2018 17:50
   - offizielle defines der Status-Codes verwendet sowie eigenen Status-Codes relativ zu _IS_EBASE_ angelegt
 
-- 1.3 @ 28.10.2018 12:07<br>
+- 1.3 @ 28.10.2018 12:07
   - API _DistanceMatrix_ hinzugefügt
   - Korrektur von GenerateStaticMap() und GenerateEmbededMap(): Fehler bei der Formatierung von Longitude und Latitude
 
-- 1.2 @ 08.10.2018 22:32<br>
+- 1.2 @ 08.10.2018 22:32
   - Korrektur des Zugriffs auf _Location_
 
-- 1.1 @ 06.09.2018 18:48<br>
-  Versionshistorie dazu,
-  define's der Variablentypen,
-  Schaltfläche mit Link zu README.md im Konfigurationsdialog
+- 1.1 @ 06.09.2018 18:48
+  - Versionshistorie dazu
+  - define's der Variablentypen
+  - Schaltfläche mit Link zu README.md im Konfigurationsdialog

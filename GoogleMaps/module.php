@@ -35,9 +35,9 @@ class GoogleMaps extends IPSModule
     protected function GetFormActions()
     {
         $formActions = [];
-        $formActions[] = ['type' => 'Button', 'label' => 'Verify Configuration', 'onClick' => 'GoogleMaps_VerifyConfiguration($id);'];
+        $formActions[] = ['type' => 'Button', 'caption' => 'Verify Configuration', 'onClick' => 'GoogleMaps_VerifyConfiguration($id);'];
         if (IPS_GetKernelVersion() < 5.2) {
-            $formActions[] = ['type' => 'Label', 'label' => '____________________________________________________________________________________________________'];
+            $formActions[] = ['type' => 'Label', 'caption' => '____________________________________________________________________________________________________'];
             $formActions[] = [
                 'type'    => 'Button',
                 'caption' => 'Module description',
