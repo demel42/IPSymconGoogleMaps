@@ -139,7 +139,7 @@ Für die Karten muss man die benötigten API's (siehe unten) aktivieren und ggfs
 - 1.15 @ 30.12.2019 10:56
   - Anpassungen an IPS 5.3
     - Formular-Elemente: 'label' in 'caption' geändert
-
+  - Fix in CreateVarProfile()
 - 1.14 @ 12.12.2019 11:45
   - GenerateDynamicMap() kann nun auch _DirectionServices_ (siehe `docs/GoogleMaps_GenerateDynamicMapDirections_WebHook.php`)
 
