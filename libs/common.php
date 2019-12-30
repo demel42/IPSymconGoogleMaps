@@ -42,7 +42,7 @@ trait GoogleMapsCommon
         if (!IPS_VariableProfileExists($Name)) {
             IPS_CreateVariableProfile($Name, $ProfileType);
             IPS_SetVariableProfileText($Name, '', $Suffix);
-            if (IPS_GetKernelVersion() < 5.2) {
+            if (in_array($ProfileType, [VARIABLETYPE_INTEGER, VARIABLETYPE_FLOAT])) {
                 IPS_SetVariableProfileValues($Name, $MinValue, $MaxValue, $StepSize);
                 IPS_SetVariableProfileDigits($Name, $Digits);
             }
@@ -144,16 +144,6 @@ trait GoogleMapsCommon
         $formStatus[] = ['code' => IS_FORBIDDEN, 'icon' => 'error', 'caption' => 'Instance is inactive (access forbidden)'];
 
         return $formStatus;
-    }
-
-    protected function GetStatus()
-    {
-        if (IPS_GetKernelVersion() >= 5.1) {
-            return parent::GetStatus();
-        }
-
-        $inst = IPS_GetInstance($this->InstanceID);
-        return $inst['InstanceStatus'];
     }
 
     private function GetStatusText()

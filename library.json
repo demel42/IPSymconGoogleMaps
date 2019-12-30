@@ -4,9 +4,9 @@
 	"name": "GoogleMaps",
 	"url": "https://github.com/demel42/IPSymconGoogleMaps",
 	"compatibility": {
-		"version": "5.0"
+		"version": "5.3"
 	},
 	"version": "1.15",
 	"build": 0,
-	"date": 1576760956
+	"date": 1577699807
 }

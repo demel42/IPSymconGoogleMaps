@@ -36,14 +36,6 @@ class GoogleMaps extends IPSModule
     {
         $formActions = [];
         $formActions[] = ['type' => 'Button', 'caption' => 'Verify Configuration', 'onClick' => 'GoogleMaps_VerifyConfiguration($id);'];
-        if (IPS_GetKernelVersion() < 5.2) {
-            $formActions[] = ['type' => 'Label', 'caption' => '____________________________________________________________________________________________________'];
-            $formActions[] = [
-                'type'    => 'Button',
-                'caption' => 'Module description',
-                'onClick' => 'echo "https://github.com/demel42/IPSymconGoogleMaps/blob/master/README.md";'
-            ];
-        }
 
         return $formActions;
     }
