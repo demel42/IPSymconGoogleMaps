@@ -59,7 +59,7 @@ class GoogleMaps extends IPSModule
     public function VerifyConfiguration()
     {
         $this->SendDebug(__FUNCTION__, 'initial: status=' . $this->GetStatusText(), 0);
-        if ($this->GetStatus() > IS_INVALIDCONFIG) {
+        if ($this->GetStatus() > self::$IS_INVALIDCONFIG) {
             $this->SetStatus(IS_ACTIVE);
             $this->SendDebug(__FUNCTION__, 'corrected: status=' . $this->GetStatusText(), 0);
         }
@@ -142,18 +142,18 @@ class GoogleMaps extends IPSModule
         $statuscode = 0;
         $err = '';
         if ($cerrno) {
-            $statuscode = IS_SERVERERROR;
+            $statuscode = self::$IS_SERVERERROR;
             $err = 'got curl-errno ' . $cerrno . ' (' . $cerror . ')';
         } elseif ($httpcode != 200) {
             if ($httpcode == 403) {
                 $err = 'got http-code ' . $httpcode . ' (forbidden)';
-                $statuscode = IS_FORBIDDEN;
+                $statuscode = self::$IS_FORBIDDEN;
             } elseif ($httpcode >= 500 && $httpcode <= 599) {
-                $statuscode = IS_SERVERERROR;
+                $statuscode = self::$IS_SERVERERROR;
                 $err = 'got http-code ' . $httpcode . ' (server error)';
             } else {
                 $err = 'got http-code ' . $httpcode;
-                $statuscode = IS_HTTPERROR;
+                $statuscode = self::$$IS_HTTPERROR;
             }
         }
 
