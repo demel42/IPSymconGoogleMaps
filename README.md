@@ -135,8 +135,12 @@ Für die Karten muss man die benötigten API's (siehe unten) aktivieren und ggfs
 
 ## 7. Versions-Historie
 
-- 1.17 @ 13.07.2020 14:56
+- 1.17 @ 23.07.2020 15:34 (beta)
   - LICENSE.md hinzugefügt
+  - intere Funktionen sind nun "private"
+  - define's durch statische Klassen-Variablen ersetzt
+  - library.php in local.php umbenannt
+  - lokale Funktionen aus common.php in locale.php verlagert
 
 - 1.16 @ 08.04.2020 11:01
   - define's durch statische Klassen-Variablen ersetzt
@@ -145,6 +149,7 @@ Für die Karten muss man die benötigten API's (siehe unten) aktivieren und ggfs
   - Anpassungen an IPS 5.3
     - Formular-Elemente: 'label' in 'caption' geändert
   - Fix in CreateVarProfile()
+
 - 1.14 @ 12.12.2019 11:45
   - GenerateDynamicMap() kann nun auch _DirectionServices_ (siehe `docs/GoogleMaps_GenerateDynamicMapDirections_WebHook.php`)
 

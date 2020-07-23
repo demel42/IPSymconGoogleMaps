@@ -3,10 +3,12 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/../libs/common.php';  // globale Funktionen
+require_once __DIR__ . '/../libs/local.php';   // lokale Funktionen
 
 class GoogleMaps extends IPSModule
 {
-    use GoogleMapsCommon;
+    use GoogleMapsCommonLib;
+    use GoogleMapsLocalLib;
 
     public function Create()
     {
@@ -24,18 +26,28 @@ class GoogleMaps extends IPSModule
         $this->SetStatus($api_key == '' ? IS_INACTIVE : IS_ACTIVE);
     }
 
-    protected function GetFormElements()
+    private function GetFormElements()
     {
         $formElements = [];
-        $formElements[] = ['type' => 'ValidationTextBox', 'name' => 'api_key', 'caption' => 'API-Key'];
+
+        $formElements[] = [
+            'type'    => 'ValidationTextBox',
+            'name'    => 'api_key',
+            'caption' => 'API-Key'
+        ];
 
         return $formElements;
     }
 
-    protected function GetFormActions()
+    private function GetFormActions()
     {
         $formActions = [];
-        $formActions[] = ['type' => 'Button', 'caption' => 'Verify Configuration', 'onClick' => 'GoogleMaps_VerifyConfiguration($id);'];
+
+        $formActions[] = [
+            'type'    => 'Button',
+            'caption' => 'Verify Configuration',
+            'onClick' => 'GoogleMaps_VerifyConfiguration($id);'
+        ];
 
         return $formActions;
     }
