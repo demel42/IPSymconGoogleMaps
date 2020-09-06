@@ -135,7 +135,7 @@ Für die Karten muss man die benötigten API's (siehe unten) aktivieren und ggfs
 
 ## 7. Versions-Historie
 
-- 1.17 @ 23.07.2020 15:34 (beta)
+- 1.17 @ 23.07.2020 15:34
   - LICENSE.md hinzugefügt
   - intere Funktionen sind nun "private"
   - define's durch statische Klassen-Variablen ersetzt
