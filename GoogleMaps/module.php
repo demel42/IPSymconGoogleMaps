@@ -683,12 +683,12 @@ class GoogleMaps extends IPSModule
 
         // arrival_time: unix-timestamp UTC
         if (isset($map['arrival_time'])) {
-            $url .= '&arrival_time=' . rawurlencode($map['arrival_time']);
+            $url .= '&arrival_time=' . rawurlencode((string) $map['arrival_time']);
         }
 
         // departure_time: unix-timestamp UTC
         if (isset($map['departure_time'])) {
-            $url .= '&departure_time=' . rawurlencode($map['departure_time']);
+            $url .= '&departure_time=' . rawurlencode((string) $map['departure_time']);
         }
 
         // traffic_model: best_guess, pessimistic, optimistic

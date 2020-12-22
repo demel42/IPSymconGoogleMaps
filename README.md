@@ -135,8 +135,9 @@ Für die Karten muss man die benötigten API's (siehe unten) aktivieren und ggfs
 
 ## 7. Versions-Historie
 
-- 1.18 @ 18.12.2020 14:57 (beta)
+- 1.18 @ 22.12.2020 16:21 (beta)
   - PHP_CS_FIXER_IGNORE_ENV=1 in github/workflows/style.yml eingefügt
+  - GetDistanceMatrix(): Fix wegen strict_types=1
 
 - 1.17 @ 23.07.2020 15:34
   - LICENSE.md hinzugefügt
