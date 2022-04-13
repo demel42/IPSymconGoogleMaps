@@ -144,7 +144,7 @@ Für die Karten muss man die benötigten API's (siehe unten) aktivieren und ggfs
 ## 7. Versions-Historie
 
 - 2.0 @ 13.04.2022 10:47
-  - GoogleMaps_GenerateStaticMap() ergänzt um 'restrict_points' und 'skip_point'
+  - GoogleMaps_GenerateStaticMap() ergänzt um 'restrict_points' und 'skip_points'
   - Anzeige der Referenzen der Instanz incl. Statusvariablen und Instanz-Timer
   - common.php -> libs/CommonStubs
 
