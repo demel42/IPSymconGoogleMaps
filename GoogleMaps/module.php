@@ -2,13 +2,15 @@
 
 declare(strict_types=1);
 
-require_once __DIR__ . '/../libs/common.php';  // globale Funktionen
+require_once __DIR__ . '/../libs/CommonStubs/common.php'; // globale Funktionen
 require_once __DIR__ . '/../libs/local.php';   // lokale Funktionen
 
 class GoogleMaps extends IPSModule
 {
-    use GoogleMapsCommonLib;
+    use StubsCommonLib;
     use GoogleMapsLocalLib;
+
+    private static $STATICMAP_URL_MAXLEN = 8192;
 
     public function Create()
     {
@@ -17,18 +19,70 @@ class GoogleMaps extends IPSModule
         $this->RegisterPropertyString('api_key', '');
     }
 
+    private function CheckConfiguration()
+    {
+        $s = '';
+        $r = [];
+
+        $api_key = $this->ReadPropertyString('api_key');
+        if ($api_key == '') {
+            $this->SendDebug(__FUNCTION__, '"api_key" is needed', 0);
+            $r[] = $this->Translate('API-Key must be specified');
+        }
+
+        if ($r != []) {
+            $s = $this->Translate('The following points of the configuration are incorrect') . ':' . PHP_EOL;
+            foreach ($r as $p) {
+                $s .= '- ' . $p . PHP_EOL;
+            }
+        }
+
+        return $s;
+    }
+
     public function ApplyChanges()
     {
         parent::ApplyChanges();
 
-        $api_key = $this->ReadPropertyString('api_key');
+        $refs = $this->GetReferenceList();
+        foreach ($refs as $ref) {
+            $this->UnregisterReference($ref);
+        }
+        $propertyNames = [];
+        foreach ($propertyNames as $name) {
+            $oid = $this->ReadPropertyInteger($name);
+            if ($oid >= 10000) {
+                $this->RegisterReference($oid);
+            }
+        }
 
-        $this->SetStatus($api_key == '' ? IS_INACTIVE : IS_ACTIVE);
+        if ($this->CheckConfiguration() != false) {
+            $this->SetStatus(self::$IS_INVALIDCONFIG);
+            return;
+        }
+
+        $this->SetStatus(IS_ACTIVE);
     }
 
     private function GetFormElements()
     {
         $formElements = [];
+
+        $formElements[] = [
+            'type'    => 'Label',
+            'caption' => 'Google Maps',
+        ];
+
+        @$s = $this->CheckConfiguration();
+        if ($s != '') {
+            $formElements[] = [
+                'type'    => 'Label',
+                'caption' => $s
+            ];
+            $formElements[] = [
+                'type'    => 'Label',
+            ];
+        }
 
         $formElements[] = [
             'type'    => 'ValidationTextBox',
@@ -49,23 +103,22 @@ class GoogleMaps extends IPSModule
             'onClick' => 'GoogleMaps_VerifyConfiguration($id);'
         ];
 
+        $formActions[] = $this->GetInformationForm();
+        $formActions[] = $this->GetReferencesForm();
+
         return $formActions;
     }
 
-    public function GetConfigurationForm()
+    public function RequestAction($ident, $value)
     {
-        $formElements = $this->GetFormElements();
-        $formActions = $this->GetFormActions();
-        $formStatus = $this->GetFormStatus();
-
-        $form = json_encode(['elements' => $formElements, 'actions' => $formActions, 'status' => $formStatus]);
-        if ($form == '') {
-            $this->SendDebug(__FUNCTION__, 'json_error=' . json_last_error_msg(), 0);
-            $this->SendDebug(__FUNCTION__, '=> formElements=' . print_r($formElements, true), 0);
-            $this->SendDebug(__FUNCTION__, '=> formActions=' . print_r($formActions, true), 0);
-            $this->SendDebug(__FUNCTION__, '=> formStatus=' . print_r($formStatus, true), 0);
+        if ($this->CommonRequestAction($ident, $value)) {
+            return;
         }
-        return $form;
+        switch ($ident) {
+            default:
+                $this->SendDebug(__FUNCTION__, 'invalid ident ' . $ident, 0);
+                break;
+        }
     }
 
     public function VerifyConfiguration()
@@ -461,6 +514,8 @@ class GoogleMaps extends IPSModule
 
     public function GenerateStaticMap(string $data)
     {
+        $url_maxlen = self::$STATICMAP_URL_MAXLEN;
+
         $url = 'https://maps.googleapis.com/maps/api/staticmap?key=';
 
         $api_key = $this->ReadPropertyString('api_key');
@@ -469,6 +524,10 @@ class GoogleMaps extends IPSModule
         }
 
         $map = json_decode($data, true);
+        $this->SendDebug(__FUNCTION__, 'map=' . print_r($map, true), 0);
+
+        $msg = '';
+
         $center = isset($map['center']) ? $map['center'] : json_decode($this->getMyLocation(), true);
         $lat = $this->format_float((float) $center['lat'], 6);
         $lng = $this->format_float((float) $center['lng'], 6);
@@ -494,6 +553,7 @@ class GoogleMaps extends IPSModule
                 }
                 $url .= '&style=' . rawurlencode($s);
             }
+            $msg .= ($msg != '' ? ', ' : '') . 'n_styles=' . count($styles);
         }
 
         $markers = isset($map['markers']) ? $map['markers'] : '';
@@ -521,11 +581,17 @@ class GoogleMaps extends IPSModule
                 }
                 $url .= '&markers=' . rawurlencode($s);
             }
+            $msg .= ($msg != '' ? ', ' : '') . 'n_markers=' . count($markers);
         }
 
         $paths = isset($map['paths']) ? $map['paths'] : '';
         if ($paths != '') {
+            $restrict_points = isset($map['restrict_points']) ? $map['restrict_points'] : false;
+            $skip_points = isset($map['skip_points']) ? $map['skip_points'] : 1;
+            $total_points = 0;
+            $used_points = 0;
             foreach ($paths as $path) {
+                $l_url = strlen($url) + strlen('&path=');
                 $s = '';
                 foreach (['color', 'weight'] as $key) {
                     if (isset($path[$key])) {
@@ -535,26 +601,44 @@ class GoogleMaps extends IPSModule
                         $s .= $key . ':' . $path[$key];
                     }
                 }
+                $l_s = strlen(rawurlencode($s));
+                if ($restrict_points && (($l_url + $l_s) > $url_maxlen)) {
+                    break;
+                }
                 if (isset($path['points'])) {
                     $points = $path['points'];
+                    $total_points += count($points);
+                    $n = 0;
                     foreach ($points as $point) {
+                        if ($n++ % $skip_points) {
+                            continue;
+                        }
+                        $used_points++;
                         $lat = $this->format_float((float) $point['lat'], 6);
                         $lng = $this->format_float((float) $point['lng'], 6);
-                        if ($s != '') {
-                            $s .= '|';
+                        $r = ($s != '' ? '|' : '') . $lat . ',' . $lng;
+                        if ($restrict_points && (($l_url + $l_s + strlen(rawurlencode($r))) > $url_maxlen)) {
+                            break;
                         }
-                        $s .= $lat . ',' . $lng;
+                        $s .= $r;
+                        $l_s = strlen(rawurlencode($s));
                     }
                 }
                 $url .= '&path=' . rawurlencode($s);
             }
+            $msg .= ($msg != '' ? ', ' : '') . 'n_paths=' . count($paths) . ', n_points=' . count($points);
+            if ($total_points != $used_points) {
+                $msg .= '(used=' . $used_points . ')';
+            }
         }
-
-        $n = strlen($url);
-        if ($n > 8192) {
-            $this->SendDebug(__FUNCTION__, 'size of url=' . $n . ' (max=8192), url=' . $url, 0);
-            $this->LogMessage(__FUNCTION__ . ': size of url=' . $n . ', max=8192', KL_WARNING);
+        $this->SendDebug(__FUNCTION__, $msg, 0);
+        $l_url = strlen($url);
+        if ($l_url > $url_maxlen) {
+            $this->SendDebug(__FUNCTION__, 'size of url=' . $l_url . ' exceeded, max=' . $url_maxlen . ', url=' . $url, 0);
+            $this->LogMessage(__FUNCTION__ . ': size of url=' . $l_url . ' exceeded, max=' . $url_maxlen, KL_WARNING);
             $url = '';
+        } else {
+            $this->SendDebug(__FUNCTION__, 'size of url=' . $l_url . ', url=' . $url, 0);
         }
 
         return $url;

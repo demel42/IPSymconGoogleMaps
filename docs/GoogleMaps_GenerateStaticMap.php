@@ -18,13 +18,16 @@ $points = [
 // allgemeine Angaben zur Karte
 $map = [];
 
-// Mittelpunkt der Karte
-$map['center'] = $points[0];
-
 $map['zoom'] = 20;
 $map['size'] = '640x640';
 $map['scale'] = 1;
 $map['maptype'] = 'satellite';
+
+$map['restrict_points'] = false; // Anzahl der Punkte beschränken auf die zulässige Größe der URL
+$map['skip_points'] = 1; // nur jeden x'ten Punkt ausgeben, GoogleMap interpoliert
+
+// Mittelpunkt der Karte
+$map['center'] = $points[0];
 
 $styles = [];
 $styles[] = [

@@ -77,14 +77,22 @@ Beispiel: `docs/GoogleMaps_GenerateDynamicMap_HtmlBox.php` sowie `docs/GoogleMap
 
 ### statische Karte (Maps Static API)
 
-'GoogleMaps_GenerateStaticMap(integer $InstanzID, string $jsonData)`
+`GoogleMaps_GenerateStaticMap(integer $InstanzID, string $jsonData)`
 
 API-Dokumentation: https://developers.google.com/maps/documentation/maps-static/intro<br>
 Beispiel: `docs/GoogleMaps_GenerateStaticMap.php`
 
+Zusatz-Angaben:
+- da die Größe der URL auf 8Kb limitiert ist und dieser Wert bei einer größeren Anzahl von Punkte schnell erreicht werde kann, gibt es Zusatz-Optionen, die in _$jsonData_ mit übergeben werden können
+  - `restrict_points`<br>
+    es werden nur soviel Punkte verwendet, das das Limit nicht überschritten wird
+  - `skip_points<br>
+    eine Angabe > 1 bedeutet, das nur jeder x'te Punkt verwendet wird - also 3 bedeutet nur jeder 3. Punkt -. Da Googlemaps ja interpoliert, kann das Ergebnis durchaus zufredenstellend sein
+  Falls das nicht Ergebnis nicht zufriedenstellen ist, ist die DynamicMap zu emnpfehlen, die ist hier nicht limitiert.
+
 ### eingebettete Karte (Maps Embed API)
 
-'GoogleMaps_GenerateEmbededMap(integer $InstanzID, string $jsonData)`
+`GoogleMaps_GenerateEmbededMap(integer $InstanzID, string $jsonData)`
 
 API-Dokumentation: https://developers.google.com/maps/documentation/embed/guide<br>
 Beispiel: `docs/GoogleMaps_GenerateEmbededMap.php`
@@ -135,7 +143,12 @@ Für die Karten muss man die benötigten API's (siehe unten) aktivieren und ggfs
 
 ## 7. Versions-Historie
 
-- 1.18 @ 22.12.2020 16:21 (beta)
+- 2.0 @ 13.04.2022 10:47
+  - GoogleMaps_GenerateStaticMap() ergänzt um 'restrict_points' und 'skip_point'
+  - Anzeige der Referenzen der Instanz incl. Statusvariablen und Instanz-Timer
+  - common.php -> libs/CommonStubs
+
+- 1.18 @ 22.12.2020 16:21
   - PHP_CS_FIXER_IGNORE_ENV=1 in github/workflows/style.yml eingefügt
   - GetDistanceMatrix(): Fix wegen strict_types=1
 
