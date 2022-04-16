@@ -143,8 +143,9 @@ Für die Karten muss man die benötigten API's (siehe unten) aktivieren und ggfs
 
 ## 7. Versions-Historie
 
-- 2.1 @ 13.04.2022 14:28
+- 2.1 @ 16.04.2022 11:54
   - Namenskonflikt (trait CommonStubs)
+  - Aktualisierung von submodule CommonStubs
 
 - 2.0 @ 13.04.2022 10:47
   - GoogleMaps_GenerateStaticMap() ergänzt um 'restrict_points' und 'skip_points'
