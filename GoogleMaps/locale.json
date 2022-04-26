@@ -75,6 +75,7 @@
 			"Instance is inactive (update not completed)": "Instanz ist inaktiv (Update nicht abgeschlossen)",
 			"Instance is inactive (invalid configuration)": "Instanz ist inaktiv (ungültige Konfiguration)",
 			"Instance is inactive (no Symcon-Connect)": "Instanz ist inaktiv (kein Symcon-Connect)",
+
 			"Instance is inactive (server error)": "Instanz ist inaktiv (Serverfehler)",
 			"Instance is inactive (http error)": "Instanz ist inaktiv (HTTP-Fehler)",
 			"Instance is inactive (access forbidden)": "Instanz ist inaktiv (Zugriff verboten)"
