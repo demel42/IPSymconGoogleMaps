@@ -3,9 +3,26 @@
 		"de": {
 			"Google Maps": "Google Maps",
 
-			"The following points of the configuration are incorrect":
-				"Die folgenden Punkte der Konfiguration sind fehlerhaft",
+			"The following points of the configuration are incorrect": "Die folgenden Punkte der Konfiguration sind fehlerhaft",
 			"API-Key must be specified": "API-Key muss angegeben sein",
+
+			"The following system prerequisites are missing": "Folgende Systemvoraussetzungen fehlen",
+
+			"Still something to do to complete the update": "Es ist noch etwas zu tun, um das Update abzuschließen",
+			"old version": "alte Version",
+			"new version": "neue Version",
+			"unknwon": "unbekannt",
+			"The use of possible affected status variables can be checked in the expansion panel \"References\"":
+				"Die Verwendung möglicherweise betroffener Statusvariablen kann im Erweiterungspanel \"Referenzen\" überprüft werden",
+			"Press button 'Complete update' to carry out the required work": "Taste 'Update abschliessen' betätigen um die erforderlichen Arbeiten auszuführen",
+			"Complete update": "Update abschliessen",
+			"Unable to complete the update": "Das Update kann nicht abgeschlossen werden",
+			"please contact the author": "Bitte kontaktieren Sie den Autor",
+
+			"Instance has no active parent instance": "Instanz hat keine aktive übergeordnete Instanz",
+
+			"Status: Symcon Connect is OK!": "Status: Symcon Connect ist OK!",
+			"Error: Symcon Connect is not active!": "Fehler: Symcon Connect ist nicht aktiv!",
 
 			"API-Key": "API-Key",
 
@@ -46,13 +63,18 @@
 			"Next run": "nächste Ausführung",
 			"Last run": "letzte Ausführung",
 			"Timer information": "Timer-Information",
+			"Refresh references panel": "Referenzen-Panel aktualisieren",
 
 			"Instance getting created": "Instanz wird erstellt",
 			"Instance is active": "Instanz ist aktiv",
 			"Instance is deleted": "Instanz wird gelöscht",
 			"Instance is inactive": "Instanz ist inaktiv",
 			"Instance is not created": "Instanz wurde nicht erzeugt",
+
+			"Instance is inactive (invalid preconditions)": "Instanz ist inaktiv (ungültige Voraussetzungen)",
+			"Instance is inactive (update not completed)": "Instanz ist inaktiv (Update nicht abgeschlossen)",
 			"Instance is inactive (invalid configuration)": "Instanz ist inaktiv (ungültige Konfiguration)",
+			"Instance is inactive (no Symcon-Connect)": "Instanz ist inaktiv (kein Symcon-Connect)",
 			"Instance is inactive (server error)": "Instanz ist inaktiv (Serverfehler)",
 			"Instance is inactive (http error)": "Instanz ist inaktiv (HTTP-Fehler)",
 			"Instance is inactive (access forbidden)": "Instanz ist inaktiv (Zugriff verboten)"

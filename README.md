@@ -1,6 +1,6 @@
 # IPSymconGoogleMaps
 
-[![IPS-Version](https://img.shields.io/badge/Symcon_Version-5.3+-red.svg)](https://www.symcon.de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/)
+[![IPS-Version](https://img.shields.io/badge/Symcon_Version-6.0+-red.svg)](https://www.symcon.de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/)
 ![Code](https://img.shields.io/badge/Code-PHP-blue.svg)
 [![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-green.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
@@ -35,7 +35,7 @@ das sind Karten mit Sonderfunktion, zur Zeit wird nur __directions__ (Wegekarte)
 
 ## 2. Voraussetzungen
 
- - IP-Symcon ab Version 5.3<br>
+ - IP-Symcon ab Version 6.0<br>
    Version 4.4 mit Branch _ips_4.4_ (nur noch Fehlerkorrekturen)
  - API von GooleMaps (siehe [Anhang/GoogleMaps](#6-anhang))
 
@@ -142,6 +142,12 @@ Für die Karten muss man die benötigten API's (siehe unten) aktivieren und ggfs
 ![API-Limitations](docs/API-Limitations.png?raw=true "Beschränkungen")
 
 ## 7. Versions-Historie
+
+- 2.2 @ 26.04.2022 15:52
+  - Implememtierung einer Update-Logik
+  - IPS-Version ist nun minimal 6.0
+  - Übersetzung vervollständigt
+  - diverse interne Änderungen
 
 - 2.1 @ 16.04.2022 11:54
   - Namenskonflikt (trait CommonStubs)
