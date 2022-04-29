@@ -1,0 +1,22 @@
+{
+	"translations": {
+		"de": {
+			"Google Maps": "Google Maps",
+
+			"__function__": "CheckConfiguration",
+			"API-Key must be specified": "API-Key muss angegeben sein",
+
+			"__elements__": "",
+			"API-Key": "API-Key",
+
+			"__actions__": "",
+			"Verify Configuration": "Prüfe Konfiguration",
+
+			"__function__": "VerifyConfiguration",
+			"Status": "Status",
+			"no simple method to check avail": "keine einfache Prüfmethode verfügbar",
+
+			"__end__": ""
+		}
+	}
+}

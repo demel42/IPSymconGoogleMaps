@@ -1,0 +1,11 @@
+{
+	"translations": {
+		"de": {
+			"Instance is inactive (server error)": "Instanz ist inaktiv (Serverfehler)",
+			"Instance is inactive (http error)": "Instanz ist inaktiv (HTTP-Fehler)",
+			"Instance is inactive (access forbidden)": "Instanz ist inaktiv (Zugriff verboten)",
+
+			"__end__": ""
+		}
+	}
+}

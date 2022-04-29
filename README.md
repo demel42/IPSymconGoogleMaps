@@ -143,6 +143,9 @@ Für die Karten muss man die benötigten API's (siehe unten) aktivieren und ggfs
 
 ## 7. Versions-Historie
 
+- 2.2.1 @ 29.04.2022 18:22
+  - Überlagerung von Translate und Aufteilung von locale.json in 3 translation.json (Modul, libs und CommonStubs)
+
 - 2.2 @ 26.04.2022 15:52
   - Implememtierung einer Update-Logik
   - IPS-Version ist nun minimal 6.0
