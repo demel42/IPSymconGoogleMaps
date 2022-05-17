@@ -143,6 +143,10 @@ Für die Karten muss man die benötigten API's (siehe unten) aktivieren und ggfs
 
 ## 7. Versions-Historie
 
+- 2.2.3 @ 17.05.2022 15:38
+  - update submodule CommonStubs
+    Fix: Absicherung gegen fehlende Objekte
+
 - 2.2.2 @ 10.05.2022 15:06
   - update submodule CommonStubs
 
