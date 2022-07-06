@@ -50,21 +50,21 @@ class GoogleMaps extends IPSModule
         $this->MaintainReferences();
 
         if ($this->CheckPrerequisites() != false) {
-            $this->SetStatus(self::$IS_INVALIDPREREQUISITES);
+            $this->MaintainStatus(self::$IS_INVALIDPREREQUISITES);
             return;
         }
 
         if ($this->CheckUpdate() != false) {
-            $this->SetStatus(self::$IS_UPDATEUNCOMPLETED);
+            $this->MaintainStatus(self::$IS_UPDATEUNCOMPLETED);
             return;
         }
 
         if ($this->CheckConfiguration() != false) {
-            $this->SetStatus(self::$IS_INVALIDCONFIG);
+            $this->MaintainStatus(self::$IS_INVALIDCONFIG);
             return;
         }
 
-        $this->SetStatus(IS_ACTIVE);
+        $this->MaintainStatus(IS_ACTIVE);
     }
 
     private function GetFormElements()
@@ -77,8 +77,9 @@ class GoogleMaps extends IPSModule
 
         $formElements[] = [
             'type'    => 'ValidationTextBox',
+            'width'   => '400px',
             'name'    => 'api_key',
-            'caption' => 'API-Key'
+            'caption' => 'API-Key',
         ];
 
         return $formElements;
@@ -100,7 +101,7 @@ class GoogleMaps extends IPSModule
         $formActions[] = [
             'type'    => 'Button',
             'caption' => 'Verify Configuration',
-            'onClick' => $this->GetModulePrefix() . '_VerifyConfiguration($id);'
+            'onClick' => 'IPS_RequestAction(' . $this->InstanceID . ', "VerifyConfiguration", "");',
         ];
 
         $formActions[] = $this->GetInformationFormAction();
@@ -115,17 +116,20 @@ class GoogleMaps extends IPSModule
             return;
         }
         switch ($ident) {
+            case 'VerifyConfiguration':
+                $this->VerifyConfiguration();
+                break;
             default:
                 $this->SendDebug(__FUNCTION__, 'invalid ident ' . $ident, 0);
                 break;
         }
     }
 
-    public function VerifyConfiguration()
+    private function VerifyConfiguration()
     {
         $this->SendDebug(__FUNCTION__, 'initial: status=' . $this->GetStatusText(), 0);
         if ($this->GetStatus() > self::$IS_INVALIDCONFIG) {
-            $this->SetStatus(IS_ACTIVE);
+            $this->MaintainStatus(IS_ACTIVE);
             $this->SendDebug(__FUNCTION__, 'corrected: status=' . $this->GetStatusText(), 0);
         }
 
@@ -179,8 +183,8 @@ class GoogleMaps extends IPSModule
         }
         $msg .= ' - DistanceMatrix: ' . ($s != '' ? 'ok' : 'fail');
 
-        $this->SendDebug(__FUNCTION__, 'final: status = ' . $this->GetStatusText(), 0);
-        echo $msg;
+        $this->SendDebug(__FUNCTION__, 'final: status =' . $this->GetStatusText(), 0);
+        $this->PopupMessage($msg);
     }
 
     private function do_HttpRequest($url, &$result)
@@ -224,21 +228,17 @@ class GoogleMaps extends IPSModule
 
         if ($statuscode) {
             $this->SendDebug(__FUNCTION__, ' => statuscode=' . $statuscode . ', err=' . $err, 0);
-            $this->SetStatus($statuscode);
+            $this->MaintainStatus($statuscode);
             return false;
         }
 
         return true;
     }
 
-    private function getMyLocation()
+    private function GetMyLocation()
     {
-        $id = IPS_GetInstanceListByModuleID('{45E97A63-F870-408A-B259-2933F7EABF74}')[0];
-        $loc = json_decode(IPS_GetProperty($id, 'Location'));
-        $lat = $loc->latitude;
-        $lng = $loc->longitude;
-        $loc = json_encode(['lng' => $lng, 'lat' => $lat]);
-        return $loc;
+        $loc = $this->GetSystemLocation();
+        return ['lng' => $loc['longitude'], 'lat' => $loc['latitude']];
     }
 
     public function GenerateDynamicMap(string $data)
@@ -252,7 +252,7 @@ class GoogleMaps extends IPSModule
         $url = 'https://maps.googleapis.com/maps/api/js?key=' . $api_key;
 
         $map = json_decode($data, true);
-        $center = isset($map['center']) ? $map['center'] : json_decode($this->getMyLocation(), true);
+        $center = isset($map['center']) ? $map['center'] : $this->GetMyLocation();
         $map_options = isset($map['map_options']) ? $map['map_options'] : '';
         $infowindow_options = isset($map['infowindow_options']) ? $map['infowindow_options'] : '';
         $markers = isset($map['markers']) ? $map['markers'] : '';
@@ -528,7 +528,7 @@ class GoogleMaps extends IPSModule
 
         $msg = '';
 
-        $center = isset($map['center']) ? $map['center'] : json_decode($this->getMyLocation(), true);
+        $center = isset($map['center']) ? $map['center'] : $this->GetMyLocation();
         $lat = $this->format_float((float) $center['lat'], 6);
         $lng = $this->format_float((float) $center['lng'], 6);
         $url .= '&center=' . rawurlencode($lat . ',' . $lng);
