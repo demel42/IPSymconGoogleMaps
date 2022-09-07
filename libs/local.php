@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 trait GoogleMapsLocalLib
 {
-    public static $IS_SERVERERROR = IS_EBASE + 2;
-    public static $IS_HTTPERROR = IS_EBASE + 3;
-    public static $IS_FORBIDDEN = IS_EBASE + 4;
+    public static $IS_SERVERERROR = IS_EBASE + 10;
+    public static $IS_HTTPERROR = IS_EBASE + 11;
+    public static $IS_FORBIDDEN = IS_EBASE + 12;
 
     private function GetFormStatus()
     {
         $formStatus = $this->GetCommonFormStatus();
 
-        $formStatus[] = ['code' => self::$IS_INVALIDCONFIG, 'icon' => 'error', 'caption' => 'Instance is inactive (invalid configuration)'];
         $formStatus[] = ['code' => self::$IS_SERVERERROR, 'icon' => 'error', 'caption' => 'Instance is inactive (server error)'];
         $formStatus[] = ['code' => self::$IS_HTTPERROR, 'icon' => 'error', 'caption' => 'Instance is inactive (http error)'];
         $formStatus[] = ['code' => self::$IS_FORBIDDEN, 'icon' => 'error', 'caption' => 'Instance is inactive (access forbidden)'];
