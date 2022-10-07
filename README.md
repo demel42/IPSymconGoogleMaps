@@ -143,6 +143,10 @@ Für die Karten muss man die benötigten API's (siehe unten) aktivieren und ggfs
 
 ## 7. Versions-Historie
 
+- 2.4.1 @ 07.10.2022 13:59
+  - update submodule CommonStubs
+    Fix: Update-Prüfung wieder funktionsfähig
+
 - 2.4 @ 07.09.2022 15:48
   - Fix: Statuscodes falsch nummeriert
   - update submodule CommonStubs
