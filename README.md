@@ -68,25 +68,30 @@ In den Beispielen sind die Strukturen soweit möglich erklärt, Details sind in 
 
 ### dynamische Karte (Maps JavaScript API)
 
-'GoogleMaps_GenerateDynamicMap(integer $InstanzID, string $jsonData)`
+`GoogleMaps_GenerateDynamicMap(integer $InstanzID, string $jsonData)`
 
 API-Dokumentation: https://developers.google.com/maps/documentation/javascript/tutorial,
 https://developers.google.com/maps/documentation/javascript/reference/3/
 <br>
-Beispiel: `docs/GoogleMaps_GenerateDynamicMap_HtmlBox.php` sowie `docs/GoogleMaps_GenerateDynamicMap_WebHook.php` bzw `docs/GoogleMaps_GenerateDynamicMapDirections_WebHook.php` 
+Beispiel: 
+[docs/GoogleMaps_GenerateDynamicMap_HtmlBox.php](docs/GoogleMaps_GenerateDynamicMap_HtmlBox.php)
+sowie 
+[docs/GoogleMaps_GenerateDynamicMap_WebHook.php](docs/GoogleMaps_GenerateDynamicMap_WebHook.php)
+bzw
+[docs/GoogleMaps_GenerateDynamicMapDirections_WebHook.php](docs/GoogleMaps_GenerateDynamicMapDirections_WebHook.php)
 
 ### statische Karte (Maps Static API)
 
 `GoogleMaps_GenerateStaticMap(integer $InstanzID, string $jsonData)`
 
 API-Dokumentation: https://developers.google.com/maps/documentation/maps-static/intro<br>
-Beispiel: `docs/GoogleMaps_GenerateStaticMap.php`
+Beispiel: [docs/GoogleMaps_GenerateStaticMap.php](docs/GoogleMaps_GenerateStaticMap.php)
 
 Zusatz-Angaben:
 - da die Größe der URL auf 8Kb limitiert ist und dieser Wert bei einer größeren Anzahl von Punkte schnell erreicht werde kann, gibt es Zusatz-Optionen, die in _$jsonData_ mit übergeben werden können
   - `restrict_points`<br>
     es werden nur soviel Punkte verwendet, das das Limit nicht überschritten wird
-  - `skip_points<br>
+  - `skip_points`<br>
     eine Angabe > 1 bedeutet, das nur jeder x'te Punkt verwendet wird - also 3 bedeutet nur jeder 3. Punkt -. Da Googlemaps ja interpoliert, kann das Ergebnis durchaus zufredenstellend sein
   Falls das nicht Ergebnis nicht zufriedenstellen ist, ist die DynamicMap zu emnpfehlen, die ist hier nicht limitiert.
 
@@ -95,12 +100,12 @@ Zusatz-Angaben:
 `GoogleMaps_GenerateEmbededMap(integer $InstanzID, string $jsonData)`
 
 API-Dokumentation: https://developers.google.com/maps/documentation/embed/guide<br>
-Beispiel: `docs/GoogleMaps_GenerateEmbededMap.php`
+Beispiel: [docs/GoogleMaps_GenerateEmbededMap.php](docs/GoogleMaps_GenerateEmbededMap.php)
 
 ### Entfernung und Reisedauer-Berechnung (DistanceMatrix API)
 
 API-Dokumentation: https://developers.google.com/maps/documentation/distance-matrix/intro<br>
-Beispiel: `docs/GoogleMaps_GetDistanceMatrix.php`
+Beispiel: [docs/GoogleMaps_GetDistanceMatrix.php](docs/GoogleMaps_GetDistanceMatrix.php)
 
 ## 5. Konfiguration:
 
