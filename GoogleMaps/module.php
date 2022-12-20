@@ -447,28 +447,28 @@ class GoogleMaps extends IPSModule
             }
 
             $html .= '
-			var directionsService = new google.maps.DirectionsService();
-			var directionsRenderer = new google.maps.DirectionsRenderer();
-			directionsRenderer.setMap(map);
-			var request = ' . json_encode($request) . ';';
+            var directionsService = new google.maps.DirectionsService();
+            var directionsRenderer = new google.maps.DirectionsRenderer();
+            directionsRenderer.setMap(map);
+            var request = ' . json_encode($request) . ';';
             if (isset($request['drivingOptions']['departureTime'])) {
                 $html .= '
-			request["drivingOptions"]["departureTime"] = new Date("' . $request['drivingOptions']['departureTime'] . '");';
+            request["drivingOptions"]["departureTime"] = new Date("' . $request['drivingOptions']['departureTime'] . '");';
             }
             if (isset($request['transitOptions']['arrivalTime'])) {
                 $html .= '
-			request["transitOptions"]["arrivalTime"] = new Date("' . $request['transitOptions']['arrivalTime'] . '");';
+            request["transitOptions"]["arrivalTime"] = new Date("' . $request['transitOptions']['arrivalTime'] . '");';
             }
             if (isset($request['transitOptions']['departureTime'])) {
                 $html .= '
-			request["transitOptions"]["departureTime"] = new Date("' . $request['transitOptions']['departureTime'] . '");';
+            request["transitOptions"]["departureTime"] = new Date("' . $request['transitOptions']['departureTime'] . '");';
             }
             $html .= '
-			directionsService.route(request, function(result, status) {
-				if (status == "OK") {
-					directionsRenderer.setDirections(result);
-				}
-			});
+            directionsService.route(request, function(result, status) {
+                if (status == "OK") {
+                    directionsRenderer.setDirections(result);
+                }
+            });
 ';
         }
 
@@ -477,14 +477,14 @@ class GoogleMaps extends IPSModule
                 switch ($layer) {
                     case 'traffic':
                         $html .= '
-				var trafficLayer = new google.maps.TrafficLayer();
-				trafficLayer.setMap(map);
+                var trafficLayer = new google.maps.TrafficLayer();
+                trafficLayer.setMap(map);
 ';
                         break;
                     case 'transit':
                         $html .= '
-				var transitLayer = new google.maps.TransitLayer();
-				transitLayer.setMap(map);
+                var transitLayer = new google.maps.TransitLayer();
+                transitLayer.setMap(map);
 ';
                             break;
 
