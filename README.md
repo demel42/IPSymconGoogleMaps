@@ -149,9 +149,9 @@ Für die Karten muss man die benötigten API's (siehe unten) aktivieren und ggfs
 ## 7. Versions-Historie
 
 - 2.6 @ 04.07.2023 14:44
+  - Vorbereitung auf IPS 7 / PHP 8.2
   - update submodule CommonStubs
     - Absicherung bei Zugriff auf Objekte und Inhalte
-    - Vorbereitung auf IPS 7 / PHP 8.2
 
 - 2.5 @ 19.12.2022 12:09
   - update submodule CommonStubs
