@@ -12,13 +12,16 @@ class GoogleMaps extends IPSModule
 
     private static $STATICMAP_URL_MAXLEN = 8192;
 
-    private $ModuleDir;
-
     public function __construct(string $InstanceID)
     {
         parent::__construct($InstanceID);
 
-        $this->ModuleDir = __DIR__;
+        $this->CommonContruct(__DIR__);
+    }
+
+    public function __destruct()
+    {
+        $this->CommonDestruct();
     }
 
     public function Create()
@@ -27,7 +30,8 @@ class GoogleMaps extends IPSModule
 
         $this->RegisterPropertyString('api_key', '');
 
-        $this->RegisterAttributeString('UpdateInfo', '');
+        $this->RegisterAttributeString('UpdateInfo', json_encode([]));
+        $this->RegisterAttributeString('ModuleStats', json_encode([]));
     }
 
     private function CheckModuleConfiguration()
