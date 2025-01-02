@@ -16,7 +16,7 @@ class GoogleMaps extends IPSModule
     {
         parent::__construct($InstanceID);
 
-        $this->CommonContruct(__DIR__);
+        $this->CommonConstruct(__DIR__);
     }
 
     public function __destruct()
