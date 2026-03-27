@@ -148,6 +148,11 @@ Für die Karten muss man die benötigten API's (siehe unten) aktivieren und ggfs
 
 ## 7. Versions-Historie
 
+- 2.10 @ 27.03.2026 09:51
+  - Fix: Anpassung für IPS 9
+  - interne Änderung
+  - update submodule CommonStubs
+
 - 2.9 @ 02.01.2025 14:28
   - interne Änderung
   - update submodule CommonStubs
