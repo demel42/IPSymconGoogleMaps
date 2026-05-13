@@ -206,7 +206,9 @@ class GoogleMaps extends IPSModule
         $cerrno = curl_errno($ch);
         $cerror = $cerrno ? curl_error($ch) : '';
         $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
+        if (IPS_GetKernelVersion() < 8.5) {
+            curl_close($ch);
+        }
 
         $duration = round(microtime(true) - $time_start, 2);
         $this->SendDebug(__FUNCTION__, ' => errno=' . $cerrno . ', httpcode=' . $httpcode . ', duration=' . $duration . 's', 0);
@@ -490,7 +492,7 @@ class GoogleMaps extends IPSModule
                 var transitLayer = new google.maps.TransitLayer();
                 transitLayer.setMap(map);
 ';
-                            break;
+                        break;
 
                     case 'bike':
                         $html .= '
@@ -543,7 +545,7 @@ class GoogleMaps extends IPSModule
             }
         }
 
-        if (isset($map['styles'])) {
+        if (isset($map['styles']) && is_array($map['styles'])) {
             $styles = $map['styles'];
             foreach ($styles as $style) {
                 $s = '';
@@ -560,8 +562,8 @@ class GoogleMaps extends IPSModule
             $msg .= ($msg != '' ? ', ' : '') . 'n_styles=' . count($styles);
         }
 
-        $markers = isset($map['markers']) ? $map['markers'] : '';
-        if ($markers != '') {
+        if (isset($map['markers']) && is_array($map['markers'])) {
+            $markers = $map['markers'];
             foreach ($markers as $marker) {
                 $s = '';
                 foreach (['color', 'label', 'size'] as $key) {
@@ -588,8 +590,8 @@ class GoogleMaps extends IPSModule
             $msg .= ($msg != '' ? ', ' : '') . 'n_markers=' . count($markers);
         }
 
-        $paths = isset($map['paths']) ? $map['paths'] : '';
-        if ($paths != '') {
+        if (isset($map['paths']) && is_array($map['paths'])) {
+            $paths = $map['paths'];
             $restrict_points = isset($map['restrict_points']) ? $map['restrict_points'] : false;
             $skip_points = isset($map['skip_points']) ? $map['skip_points'] : 1;
             $total_points = 0;
@@ -609,7 +611,7 @@ class GoogleMaps extends IPSModule
                 if ($restrict_points && (($l_url + $l_s) > $url_maxlen)) {
                     break;
                 }
-                if (isset($path['points'])) {
+                if (isset($path['points']) && is_array($path['points'])) {
                     $points = $path['points'];
                     $total_points += count($points);
                     $n = 0;

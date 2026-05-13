@@ -73,9 +73,9 @@ In den Beispielen sind die Strukturen soweit möglich erklärt, Details sind in 
 API-Dokumentation: https://developers.google.com/maps/documentation/javascript/tutorial,
 https://developers.google.com/maps/documentation/javascript/reference/3/
 <br>
-Beispiel: 
+Beispiel:
 [docs/GoogleMaps_GenerateDynamicMap_HtmlBox.php](docs/GoogleMaps_GenerateDynamicMap_HtmlBox.php)
-sowie 
+sowie
 [docs/GoogleMaps_GenerateDynamicMap_WebHook.php](docs/GoogleMaps_GenerateDynamicMap_WebHook.php)
 bzw
 [docs/GoogleMaps_GenerateDynamicMapDirections_WebHook.php](docs/GoogleMaps_GenerateDynamicMapDirections_WebHook.php)
@@ -147,6 +147,10 @@ Für die Karten muss man die benötigten API's (siehe unten) aktivieren und ggfs
 ![API-Limitations](docs/API-Limitations.png?raw=true "Beschränkungen")
 
 ## 7. Versions-Historie
+
+- 2.11 @ 09.05.2026 11:36
+  - Fix: Änderung von deprecated php code
+  - update submodule CommonStubs
 
 - 2.10 @ 27.03.2026 09:51
   - Fix: Anpassung für IPS 9
